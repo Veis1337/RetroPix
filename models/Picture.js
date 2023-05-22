@@ -1,0 +1,39 @@
+const { Sequelize, DataTypes, Model } = require('sequelize');
+const sequelize = require('../database');
+
+class Picture extends Model {}
+
+Picture.init(
+  {
+    id: {
+      type: DataTypes.UUID,
+      defaultValue: DataTypes.UUIDV4,
+      primaryKey: true,
+    },
+    title: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    drawingData: {
+      type: DataTypes.TEXT,
+      allowNull: false,
+    },
+    userId: {
+      type: DataTypes.UUID,
+      allowNull: false,
+      references: {
+        model: 'Users', 
+        key: 'id',
+      },
+      onUpdate: 'CASCADE',
+      onDelete: 'CASCADE',
+    },
+  },
+  {
+    sequelize,
+    modelName: 'Picture',
+    timestamps: true,
+  }
+);
+
+module.exports = Picture;
