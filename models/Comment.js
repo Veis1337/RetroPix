@@ -1,32 +1,34 @@
 const { Sequelize, DataTypes, Model } = require('sequelize');
 const sequelize = require('../database');
 
-class Picture extends Model {}
+class Comment extends Model {}
 
-Picture.init(
+Comment.init(
   {
     id: {
       type: DataTypes.UUID,
       defaultValue: DataTypes.UUIDV4,
       primaryKey: true,
     },
-    title: {
+    text: {
       type: DataTypes.STRING,
       allowNull: false,
-    },
-    drawingData: {
-      type: DataTypes.TEXT,
-      allowNull: false,
-    },
-    guestUserId: {
-      type: DataTypes.STRING,
-      allowNull: true,
     },
     userId: {
       type: DataTypes.UUID,
       allowNull: false,
       references: {
-        model: 'Users', 
+        model: 'Users',
+        key: 'id',
+      },
+      onUpdate: 'CASCADE',
+      onDelete: 'CASCADE',
+    },
+    pictureId: {
+      type: DataTypes.UUID,
+      allowNull: false,
+      references: {
+        model: 'Pictures',
         key: 'id',
       },
       onUpdate: 'CASCADE',
@@ -35,15 +37,14 @@ Picture.init(
   },
   {
     sequelize,
-    modelName: 'Picture',
+    modelName: 'Comment',
     timestamps: true,
   }
 );
 
-Picture.associate = (models) => {
-  Picture.belongsTo(models.User, { foreignKey: 'userId' });
-  Picture.hasMany(models.Comment, { foreignKey: 'pictureId' });
-  Picture.hasMany(models.Upvote, { foreignKey: 'pictureId' });
+Comment.associate = (models) => {
+  Comment.belongsTo(models.User, { foreignKey: 'userId' });
+  Comment.belongsTo(models.Picture, { foreignKey: 'pictureId' });
 };
 
-module.exports = Picture;
+module.exports = Comment;

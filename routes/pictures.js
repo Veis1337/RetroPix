@@ -31,19 +31,27 @@ router.get('/', async (req, res) => {
     }
   });
   
-  // Create a new picture
+// Create a new picture
 router.post('/', authenticateToken, async (req, res) => {
-    const user = req.user;
-    const { title, drawingData, userId } = req.body;
-    try {
+  const { title, drawingData } = req.body;
+  try {
+    if (req.headers.authorization) {
+      // Authenticated user
+      const userId = req.user.id;
       const picture = await Picture.create({ title, drawingData, userId });
       res.status(201).json(picture);
-    } catch (error) {
-      console.error('Error creating picture:', error);
-      res.status(500).json({ error: 'Internal server error' });
+    } else {
+      // Guest user
+      const guestUserId = "Guest";
+      const picture = await Picture.create({ title, drawingData, guestUserId });
+      res.status(201).json(picture);
     }
-  });
-  
+  } catch (error) {
+    console.error('Error creating picture:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
   // If we decide to Update a picture
 //   router.put('/:id', async (req, res) => {
 //     const { id } = req.params;
