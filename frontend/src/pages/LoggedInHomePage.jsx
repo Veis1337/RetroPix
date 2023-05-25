@@ -7,7 +7,7 @@ const LoggedInHomePage = () => {
     // Fetch the pictures from the backend API
     const fetchPictures = async () => {
       try {
-        const response = await fetch('/api/pictures');
+        const response = await fetch('/pix');
         if (response.ok) {
           const data = await response.json();
           setGalleryPictures(data);

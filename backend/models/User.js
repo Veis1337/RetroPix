@@ -19,8 +19,13 @@ User.init(
       type: DataTypes.STRING,
       allowNull: false,
     },
-    friendList: {
-      type: DataTypes.ARRAY(DataTypes.UUID),
+    about: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
+    email: {
+      type: DataTypes.STRING,
+      allowNull: true,
     },
   },
   {

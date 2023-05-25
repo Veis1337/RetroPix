@@ -1,72 +1,85 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 const SignUp = () => {
+  const navigate = useNavigate();
+
   const [formData, setFormData] = useState({
-    username: '',
     email: '',
+    username: '',
     password: '',
     confirmPassword: '',
+    isNewUser: true,
   });
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
+  const handleToggle = () => {
+    setFormData({ ...formData, isNewUser: !formData.isNewUser });
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    if (formData.password !== formData.confirmPassword) {
-      console.log("Passwords don't match");
-      return;
-    }
-
-    try {
-      const response = await fetch('/api/signup', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(formData),
-      });
-
-      if (response.ok) {
-        console.log('User created successfully');
-        // Redirect or show success message
-      } else {
-        alert('User creation failed');
-        // Handle error response
-      }
-    } catch (error) {
-      alert('An error occurred:', error);
   
+    if (formData.isNewUser) {
+      if (formData.password !== formData.confirmPassword) {
+        alert("Passwords don't match");
+        return;
+      }
+  
+      const { email, username, password } = formData;
+      const requestData = { email, username, password };
+  
+      try {
+        console.log(requestData);
+        const response = await axios.post('/auth/register', requestData, {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        });
+        console.log('try complete');
+  
+        if (response.status === 200) {
+          console.log('User registered successfully');
+          navigate('/loggedinhome');
+        } else {
+          alert('User registration failed');
+        }
+      } catch (error) {
+        alert('An error occurred:', error);
+      }
+    } else {
+      try {
+        const response = await axios.post('/auth/login', formData, {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        });
+  
+        if (response.status === 200) {
+          console.log('User logged in successfully');
+          navigate('/loggedinhome');
+        } else {
+          alert('Login failed');
+        }
+      } catch (error) {
+        alert('An error occurred:', error);
+      }
     }
   };
 
-  const isPasswordMatch = formData.password === formData.confirmPassword;
-  const isFormComplete =
-    formData.username !== '' &&
-    formData.email !== '' &&
-    formData.password !== '' &&
-    formData.confirmPassword !== '' &&
-    isPasswordMatch;
-
   return (
     <div className="container mx-auto py-8 px-4">
-      <h2 className="heading text-center mb-6" style={{ color: 'blue', fontWeight: 'bold' }}>Sign Up</h2>
+      <h2 className="heading text-center mb-6" style={{ color: 'blue', fontWeight: 'bold' }}>
+        {formData.isNewUser ? 'Sign Up' : 'Log In'}
+      </h2>
       <form onSubmit={handleSubmit} className="max-w-md mx-auto">
-        <div className="mb-4">
-          <label className="text">Username</label>
-          <input
-            type="text"
-            className="input"
-            name="username"
-            value={formData.username}
-            onChange={handleChange}
-          />
-        </div>
-        <div className="mb-4">
-          <div className="flex flex-col">
-            <label className="text">Email</label>
+        {formData.isNewUser && (
+          <div className="mb-4">
+            <label className="text">Email</label><br></br>
             <input
               type="email"
               className="input"
@@ -75,7 +88,31 @@ const SignUp = () => {
               onChange={handleChange}
             />
           </div>
-        </div>
+        )}
+        {formData.isNewUser && (
+          <div className="mb-4">
+            <label className="text">Username</label>
+            <input
+              type="text"
+              className="input"
+              name="username"
+              value={formData.username}
+              onChange={handleChange}
+            />
+          </div>
+        )}
+                {!formData.isNewUser && (
+          <div className="mb-4">
+            <label className="text">Email</label><br></br>
+            <input
+              type="email"
+              className="input"
+              name="email"
+              value={formData.email}
+              onChange={handleChange}
+            />
+          </div>
+        )}
         <div className="mb-4">
           <label className="text">Password</label>
           <input
@@ -86,23 +123,45 @@ const SignUp = () => {
             onChange={handleChange}
           />
         </div>
-        <div className="mb-6">
-          <label className="text">Confirm Password</label>
-          <input
-            type="password"
-            className={`input ${!isPasswordMatch ? 'text-red-500' : ''}`}
-            name="confirmPassword"
-            value={formData.confirmPassword}
-            onChange={handleChange}
-          />
-          {!isPasswordMatch && (
-            <p className="text-red-500 mt-1">Passwords do not match</p>
-          )}
-        </div>
+
+        {formData.isNewUser && (
+          <div className="mb-6">
+            <label className="text">Confirm Password</label>
+            <input
+              type="password"
+              className={`input ${formData.password !== formData.confirmPassword ? 'text-red-500' : ''}`}
+              name="confirmPassword"
+              value={formData.confirmPassword}
+              onChange={handleChange}
+            />
+            {formData.password !== formData.confirmPassword && (
+              <p className="text-red-500 mt-1">Passwords do not match</p>
+            )}
+          </div>
+        )}
         <div>
-        <button type="submit" className={`btn ${isFormComplete ? 'btn-green' : ''}`}>Sign Up</button>
+          <button type="submit" className="text-green-500 border-2 p-2 border-green-500 hover:text-green-300">
+            {formData.isNewUser ? 'Submit' : 'Log In'}
+          </button>
         </div>
       </form>
+      <div className="text-center mt-4">
+        {formData.isNewUser ? (
+          <p>
+            Already have an account?{' '}
+            <button className="text-blue-700 border-2 border-blue-700 p-2 hover:text-blue-300" onClick={handleToggle}>
+              Log In
+            </button>
+          </p>
+        ) : (
+          <p>
+            Create a new account?{' '}
+            <button className="text-blue-700" onClick={handleToggle}>
+              Create New User
+            </button>
+          </p>
+        )}
+      </div>
     </div>
   );
 };

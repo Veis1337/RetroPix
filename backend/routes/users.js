@@ -3,12 +3,6 @@ const router = express.Router();
 const User = require('../models/User');
 const { authenticateToken } = require('../middleware/auth');
 
-// Protected route that requires authentication
-router.get('/me', authenticateToken, (req, res) => {
-  // Access the authenticated user data through req.user
-  const user = req.user;
-  res.json({ user });
-});
 
 // Get all users
 router.get('/', async (req, res) => {
@@ -33,18 +27,6 @@ router.get('/:id', async (req, res) => {
     }
   } catch (error) {
     console.error('Error retrieving user:', error);
-    res.status(500).json({ error: 'Internal server error' });
-  }
-});
-
-// Create a new user
-router.post('/', async (req, res) => {
-  const { username, email, password } = req.body;
-  try {
-    const user = await User.create({ username, email, password });
-    res.status(201).json(user);
-  } catch (error) {
-    console.error('Error creating user:', error);
     res.status(500).json({ error: 'Internal server error' });
   }
 });
