@@ -1,10 +1,12 @@
 {
   "name": "retropix",
   "version": "1.0.0",
+  "homepage": "https://veis1337.github.io/RetroPix",
   "description": "",
   "main": "index.js",
   "scripts": {
     "start": "cd backend && node server.js",
+    "build": "react-scripts build",
     "frontend": "cd frontend && npm start",
     "backend": "cd backend && node server.js",
     "develop": "concurrently \"npm run frontend\" \"npm run backend\""
@@ -17,6 +19,13 @@
     "nodemon": "^2.0.22"
   },
   "dependencies": {
-    "axios": "^1.4.0"
+    "axios": "^1.4.0",
+    "dotenv": "^16.0.3",
+    "react-scripts": "^5.0.1",
+    "web-vitals": "^3.3.1"
+  },
+  "engines": {
+    "node": "18.12.1"
   }
+  
 }
