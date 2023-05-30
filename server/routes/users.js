@@ -8,12 +8,13 @@ const { authenticateToken } = require('../middleware/auth');
 router.get('/', async (req, res) => {
   try {
     const users = await User.findAll();
-    res.json(users);
+    res.json({ users }); // destructuring users response
   } catch (error) {
     console.error('Error retrieving users:', error);
     res.status(500).json({ error: 'Internal server error' });
   }
 });
+
 
 // Get a specific user by ID
 router.get('/:id', async (req, res) => {
