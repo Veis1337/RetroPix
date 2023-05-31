@@ -33,17 +33,18 @@ router.get('/', async (req, res) => {
   
 // Create a new picture
 router.post('/', authenticateToken, async (req, res) => {
-  const { title, drawingData } = req.body;
+  const { title, caption, drawingData } = req.body;
+
   try {
-    if (req.headers.authorization) {
-      // Authenticated user
-      const userId = req.user.id;
-      const picture = await Picture.create({ title, drawingData, userId });
+    if (req.user.id === 'Guest') {
+      // Guest user
+      const guestUserId = 'Guest';
+      const picture = await Picture.create({ title, caption, drawingData, guestUserId });
       res.status(201).json(picture);
     } else {
-      // Guest user
-      const guestUserId = "Guest";
-      const picture = await Picture.create({ title, drawingData, guestUserId });
+      // Authenticated user
+      const userId = req.user.id;
+      const picture = await Picture.create({ title, caption, drawingData, userId });
       res.status(201).json(picture);
     }
   } catch (error) {
@@ -51,6 +52,7 @@ router.post('/', authenticateToken, async (req, res) => {
     res.status(500).json({ error: 'Internal server error' });
   }
 });
+
 
   // If we decide to Update a picture
 //   router.put('/:id', async (req, res) => {

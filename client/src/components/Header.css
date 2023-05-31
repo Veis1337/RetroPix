@@ -15,8 +15,14 @@
   
   .nav-item a {
     text-decoration: none;
-    color: #000000;
+    color: #FF00FF;
+    transition: color .3s ease;
   }
+
+  .nav-item a:hover {
+    color: #00FF00;
+  }
+  
   
   .draw-button {
     background-color: #FF00FF;

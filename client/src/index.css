@@ -39,6 +39,7 @@ body {
 /* Container styles */
 .container {
   max-width: 1200px;
+  min-height: 800px;
   margin-left: auto;
   margin-right: auto;
   padding-left: 1rem;

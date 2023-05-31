@@ -14,9 +14,13 @@ const App = () => {
       <Header />
       <div>
         <Routes>
-          <Route path="/signup" element={<SignUpPage />} />
+          <Route path="/signup" element={<SignUpPage setIsLoggedIn={setIsLoggedIn} />} />
           <Route path="/users" element={<UserList />} />
-          <Route path="/" element={isLoggedIn ? <LoggedInHomePage /> : <HomePage />} />
+          {isLoggedIn ? (
+            <Route path="/" element={<LoggedInHomePage />} />
+          ) : (
+            <Route path="/" element={<HomePage />} />
+          )}
         </Routes>
       </div>
     </Router>

@@ -22,9 +22,16 @@ Picture.init(
       type: DataTypes.STRING,
       allowNull: true,
     },
+    caption: {
+      type: DataTypes.STRING,
+      allowNull: true,
+      validate: {
+        len: [0, 100],
+      },
+    },
     userId: {
       type: DataTypes.UUID,
-      allowNull: false,
+      allowNull: true,
       references: {
         model: 'Users', 
         key: 'id',

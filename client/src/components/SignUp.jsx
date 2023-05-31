@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import axios from 'axios';
 
-const SignUp = () => {
+const SignUp = ({ setIsLoggedIn }) => {
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
@@ -10,7 +10,7 @@ const SignUp = () => {
     username: '',
     password: '',
     confirmPassword: '',
-    isNewUser: true,
+    isNewUser: false,
   });
 
   const handleChange = (e) => {
@@ -44,7 +44,8 @@ const SignUp = () => {
   
         if (response.status === 200) {
           console.log('User registered successfully');
-          navigate('/loggedinhome');
+          setIsLoggedIn(true);
+          navigate('/');
         } else {
           alert('User registration failed');
         }
@@ -61,7 +62,8 @@ const SignUp = () => {
   
         if (response.status === 200) {
           console.log('User logged in successfully');
-          navigate('/loggedinhome');
+          setIsLoggedIn(true);
+          navigate('/');
         } else {
           alert('Login failed');
         }
@@ -73,7 +75,7 @@ const SignUp = () => {
 
   return (
     <div className="container mx-auto py-8 px-4">
-      <h2 className="heading text-center mb-6" style={{ color: 'blue', fontWeight: 'bold' }}>
+      <h2 className="heading text-center mb-6" style={{ color: '#ccc', fontWeight: 'bold' }}>
         {formData.isNewUser ? 'Sign Up' : 'Log In'}
       </h2>
       <form onSubmit={handleSubmit} className="max-w-md mx-auto">
@@ -101,7 +103,7 @@ const SignUp = () => {
             />
           </div>
         )}
-                {!formData.isNewUser && (
+        {!formData.isNewUser && (
           <div className="mb-4">
             <label className="text">Email</label><br></br>
             <input
@@ -123,7 +125,7 @@ const SignUp = () => {
             onChange={handleChange}
           />
         </div>
-
+  
         {formData.isNewUser && (
           <div className="mb-6">
             <label className="text">Confirm Password</label>
@@ -148,15 +150,13 @@ const SignUp = () => {
       <div className="text-center mt-4">
         {formData.isNewUser ? (
           <p>
-            Already have an account?{' '}
             <button className="text-blue-700 border-2 border-blue-700 p-2 hover:text-blue-300" onClick={handleToggle}>
               Log In
             </button>
           </p>
         ) : (
           <p>
-            Create a new account?{' '}
-            <button className="text-blue-700" onClick={handleToggle}>
+            <button className="text-blue-700 border-2 border-blue-700 p-2 hover:text-blue-300" onClick={handleToggle}>
               Create New User
             </button>
           </p>
@@ -164,6 +164,7 @@ const SignUp = () => {
       </div>
     </div>
   );
-};
-
-export default SignUp;
+  };
+  
+  export default SignUp;
+  

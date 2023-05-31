@@ -1,11 +1,11 @@
 import React from 'react';
 import SignUp from '../components/SignUp';
 
-const SignUpPage = () => {
+const SignUpPage = ({ setIsLoggedIn }) => {
   return (
     <div>
       <h1>Sign Up</h1>
-      <SignUp />
+      <SignUp setIsLoggedIn={setIsLoggedIn} />
     </div>
   );
 };

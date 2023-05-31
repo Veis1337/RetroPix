@@ -1,11 +1,15 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import PixelArtModal from './PixelArtModal';
 import './Header.css';
 
 const Header = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [modalSize, setModalSize] = useState(15);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
-  const openModal = () => {
+  const openModal = (size) => {
+    setModalSize(size);
     setIsModalOpen(true);
   };
 
@@ -13,25 +17,43 @@ const Header = () => {
     setIsModalOpen(false);
   };
 
+  const handleLogout = () => {
+    // Perform logout logic
+    setIsLoggedIn(false);
+  };
+
   return (
     <header className="header">
       <nav>
         <ul className="nav-list">
           <li className="nav-item">
-            <a href="/">Home</a>
+            <Link to="/">Home</Link>
           </li>
-          <li className="nav-item">
-            <a href="/signup">Sign Up</a>
-          </li>
-          <li className="nav-item">
-            <a href="/profile">User Profile</a>
-          </li>
+          {!isLoggedIn && (
+            <li className="nav-item">
+              <Link to="/signup">Sign Up / Log In</Link>
+            </li>
+          )}
+          {isLoggedIn && (
+            <>
+              <li className="nav-item">
+                <Link to="/profile">User Profile</Link>
+              </li>
+              <li className="nav-item">
+                <button className="logout-button" onClick={handleLogout}>
+                  Logout
+                </button>
+              </li>
+            </>
+          )}
         </ul>
       </nav>
-      <button className="draw-button" onClick={openModal}>
+      <button className="draw-button" onClick={() => openModal(15)}>
         Draw Something!
       </button>
-      {isModalOpen && <PixelArtModal closeModal={closeModal} />}
+      {isModalOpen && (
+        <PixelArtModal closeModal={closeModal} gridSize={modalSize} />
+      )}
     </header>
   );
 };
