@@ -5,6 +5,7 @@ import HomePage from './pages/HomePage';
 import LoggedInHomePage from './pages/LoggedInHomePage';
 import UserList from './components/UserList';
 import Header from './components/Header';
+import PixGallery from './components/PixGallery';
 
 const App = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -21,6 +22,7 @@ const App = () => {
           ) : (
             <Route path="/" element={<HomePage />} />
           )}
+          <Route path="/pix" element={<PixGallery />} /> {/* Add this line */}
         </Routes>
       </div>
     </Router>
