@@ -7,7 +7,7 @@
   "scripts": {
     "postinstall": "npm run webpack",
     "webpack": "webpack",
-    "start": "react-scripts start",
+    "start": "react-scripts start --cwd ./src",
     "build": "cd client && react-scripts build && mv build/* public/",
     "test": "react-scripts test",
     "frontend": "cd client && npm start",
