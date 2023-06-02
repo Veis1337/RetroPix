@@ -9,6 +9,7 @@ const PixelArtModal = ({ closeModal }) => {
   const [isGridTransparent, setIsGridTransparent] = useState(true);
   const [title, setTitle] = useState("");
   const [caption, setCaption] = useState("");
+  const [error, setError] = useState(null); // Error state
 
   const handlePixelClick = (index) => {
     const newPixels = [...pixels];
@@ -48,23 +49,43 @@ const PixelArtModal = ({ closeModal }) => {
     ));
   };
 
+  const validateCaption = (caption) => {
+    if (caption.length > 100) {
+      setError('Caption should be up to 100 characters');
+      return false;
+    }
+    return true;
+  };
+
+  const validateTitle = (title) => {
+    if (title.length > 14) {
+      setError('Title should be up to 14 characters');
+      return false;
+    }
+    return true;
+  };
+
   const handlePost = () => {
+    setError(null); // Reset the error state
+
+    if (!validateTitle(title) || !validateCaption(caption)) {
+      return; // Validation failed, exit the function
+    }
+
     const pictureData = {
       title: title,
       caption: caption,
       drawingData: JSON.stringify(pixels),
     };
 
-    // Send the pictureData to your backend API
+    // Send the pictureData to the backend API
     axios
       .post("/pix", pictureData)
       .then((response) => {
-        // Handle the successful response
         console.log("Picture model saved successfully!", response.data);
         closeModal(); // Close the modal after successful save
       })
       .catch((error) => {
-        // Handle the error
         console.error("Error saving the Picture model:", error);
       });
   };
@@ -122,6 +143,29 @@ const PixelArtModal = ({ closeModal }) => {
             50x50
           </button>
         </div>
+
+        {/* Title form */}
+        <div className="form-group">
+          <label htmlFor="title">Title:</label>
+          <input
+            type="text"
+            id="title"
+            value={title}
+            onChange={handleTitleChange}
+          />
+        </div>
+
+        {/* Caption form */}
+        <div className="form-group">
+          <label htmlFor="caption">Caption:</label>
+          <textarea
+            id="caption"
+            value={caption}
+            onChange={handleCaptionChange}
+          />
+        </div>
+
+        {error && <p className="error-message">{error}</p>} {/* Display error message if there's an error */}
 
         <div className="modal-toggle">
           <button className="toggle-button" onClick={handlePost}>

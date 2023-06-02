@@ -1,7 +1,6 @@
 const express = require('express');
 const router = express.Router();
 const Picture = require('../models/Picture');
-const picturesRouter = require('./pictures');
 const { authenticateToken } = require('../middleware/auth');
 
 // Get all pictures
@@ -53,42 +52,64 @@ router.post('/', authenticateToken, async (req, res) => {
   }
 });
 
-
-  // If we decide to Update a picture
-//   router.put('/:id', async (req, res) => {
-//     const { id } = req.params;
-//     const { title, drawingData } = req.body;
-//     try {
-//       const picture = await Picture.findByPk(id);
-//       if (picture) {
-//         picture.title = title;
-//         picture.drawingData = drawingData;
-//         await picture.save();
-//         res.json(picture);
-//       } else {
-//         res.status(404).json({ error: 'Picture not found' });
-//       }
-//     } catch (error) {
-//       console.error('Error updating picture:', error);
-//       res.status(500).json({ error: 'Internal server error' });
-//     }
-//   });
-  
-  // Delete a picture
-  router.delete('/:id', async (req, res) => {
-    const { id } = req.params;
-    try {
-      const picture = await Picture.findByPk(id);
-      if (picture) {
-        await picture.destroy();
-        res.sendStatus(204);
-      } else {
-        res.status(404).json({ error: 'Picture not found' });
-      }
-    } catch (error) {
-      console.error('Error deleting picture:', error);
-      res.status(500).json({ error: 'Internal server error' });
+// Edit picture
+router.put('/:id', async (req, res) => {
+  const { id } = req.params;
+  const { title, drawingData } = req.body;
+  try {
+    const picture = await Picture.findByPk(id);
+    if (picture) {
+      picture.title = title;
+      picture.drawingData = drawingData;
+      await picture.save();
+      res.json(picture);
+    } else {
+      res.status(404).json({ error: 'Picture not found' });
     }
-  });
+  } catch (error) {
+    console.error('Error updating picture:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
+// Copy picture
+router.post('/:id/copy', async (req, res) => {
+  const { id } = req.params;
+  try {
+    const picture = await Picture.findByPk(id);
+    if (picture) {
+      // Create a copy of the picture with a new ID
+      const newPicture = await Picture.create({
+        title: picture.title,
+        caption: picture.caption,
+        drawingData: picture.drawingData,
+        userId: picture.userId,
+      });
+      res.status(201).json(newPicture);
+    } else {
+      res.status(404).json({ error: 'Picture not found' });
+    }
+  } catch (error) {
+    console.error('Error copying picture:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
+// Delete a picture
+router.delete('/:id', async (req, res) => {
+  const { id } = req.params;
+  try {
+    const picture = await Picture.findByPk(id);
+    if (picture) {
+      await picture.destroy();
+      res.sendStatus(204);
+    } else {
+      res.status(404).json({ error: 'Picture not found' });
+    }
+  } catch (error) {
+    console.error('Error deleting picture:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
   
 module.exports = router;

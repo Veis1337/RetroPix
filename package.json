@@ -1,12 +1,14 @@
 {
   "name": "retropix",
   "version": "1.0.0",
-  "homepage": "https://veis1337.github.io/RetroPix",
+  "homepage": ".",
   "description": "",
   "main": "index.js",
   "scripts": {
+    "postinstall": "npm run webpack",
+    "webpack": "webpack",
     "start": "cd server && node server.js",
-    "build": "react-scripts build",
+    "build": "react-scripts build && mv build public",
     "frontend": "cd client && npm start",
     "backend": "cd server && node server.js",
     "develop": "concurrently \"npm run frontend\" \"npm run backend\""
@@ -25,7 +27,8 @@
     "pg": "^8.11.0",
     "react-scripts": "^5.0.1",
     "sequelize": "^6.31.1",
-    "web-vitals": "^3.3.1"
+    "web-vitals": "^3.3.1",
+    "webpack": "^5.85.0"
   },
   "engines": {
     "node": "18.12.1"

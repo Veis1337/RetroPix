@@ -34,6 +34,14 @@
   }
   
   .draw-button:hover {
-    background-color: #000280;
+    background-color: #4299e1;
   }
   
+  .logout-button {
+    color: #FF00FF;
+    transition: color 0.5s ease;
+  }
+
+  .logout-button:hover {
+    color: #f44336;
+  }

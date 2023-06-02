@@ -1,12 +1,23 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import PixelArtModal from './PixelArtModal';
 import './Header.css';
+import axios from 'axios';
 
 const Header = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalSize, setModalSize] = useState(15);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+  
+    if (token && token !== 'Guest') {
+      setIsLoggedIn(true);
+    }
+  }, []);
+  
 
   const openModal = (size) => {
     setModalSize(size);
@@ -18,8 +29,16 @@ const Header = () => {
   };
 
   const handleLogout = () => {
-    // Perform logout logic
-    setIsLoggedIn(false);
+    axios
+      .post('/auth/logout')
+      .then((response) => {
+        console.log(response.data);
+        setIsLoggedIn(false);
+        navigate('/');
+      })
+      .catch((error) => {
+        console.error('Error logging out:', error);
+      });
   };
 
   return (
@@ -37,7 +56,7 @@ const Header = () => {
           {isLoggedIn && (
             <>
               <li className="nav-item">
-                <Link to="/profile">User Profile</Link>
+                <Link to="/profile">Profile</Link>
               </li>
               <li className="nav-item">
                 <button className="logout-button" onClick={handleLogout}>
@@ -51,9 +70,7 @@ const Header = () => {
       <button className="draw-button" onClick={() => openModal(15)}>
         Draw Something!
       </button>
-      {isModalOpen && (
-        <PixelArtModal closeModal={closeModal} gridSize={modalSize} />
-      )}
+      {isModalOpen && <PixelArtModal closeModal={closeModal} gridSize={modalSize} />}
     </header>
   );
 };

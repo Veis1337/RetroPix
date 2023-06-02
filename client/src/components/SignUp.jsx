@@ -34,18 +34,17 @@ const SignUp = ({ setIsLoggedIn }) => {
       const requestData = { email, username, password };
   
       try {
-        console.log(requestData);
         const response = await axios.post('/auth/register', requestData, {
           headers: {
             'Content-Type': 'application/json',
           },
         });
-        console.log('try complete');
   
         if (response.status === 200) {
           console.log('User registered successfully');
-          setIsLoggedIn(true);
-          navigate('/');
+          localStorage.setItem('token', response.data.token); // Save the token to localStorage
+          setIsLoggedIn(true); // Set the isLoggedIn state to true
+          navigate('/'); // Redirect to the home page
         } else {
           alert('User registration failed');
         }
@@ -62,8 +61,9 @@ const SignUp = ({ setIsLoggedIn }) => {
   
         if (response.status === 200) {
           console.log('User logged in successfully');
-          setIsLoggedIn(true);
-          navigate('/');
+          localStorage.setItem('token', response.data.token); // Save the token to localStorage
+          setIsLoggedIn(true); // Set the isLoggedIn state to true
+          navigate('/'); // Redirect to the home page
         } else {
           alert('Login failed');
         }
@@ -72,6 +72,7 @@ const SignUp = ({ setIsLoggedIn }) => {
       }
     }
   };
+  
 
   return (
     <div className="container mx-auto py-8 px-4">

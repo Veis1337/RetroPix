@@ -13,6 +13,9 @@ Picture.init(
     title: {
       type: DataTypes.STRING,
       allowNull: false,
+      validate: {
+        len: [0, 14],
+      },
     },
     drawingData: {
       type: DataTypes.TEXT,

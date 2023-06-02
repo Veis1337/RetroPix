@@ -1,8 +1,45 @@
 const express = require('express');
 const router = express.Router();
-const User = require('../models/User');
 const { authenticateToken } = require('../middleware/auth');
+const User = require('../models/User');
 
+// Update the user's about
+router.put('/:id/about', authenticateToken, async (req, res) => {
+  const authenticatedUser = req.user;
+  const { id } = req.params;
+  const { about } = req.body;
+
+  try {
+    const userToUpdate = await User.findByPk(id);
+    if (userToUpdate) {
+      userToUpdate.about = about;
+      await userToUpdate.save();
+      res.json(userToUpdate);
+    } else {
+      res.status(404).json({ error: 'User not found' });
+    }
+  } catch (error) {
+    console.error('Error updating user:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
+// Get user information
+router.get('/user-info', authenticateToken, async (req, res) => {
+  try {
+    const userId = req.user.id;
+    const user = await User.findByPk(userId);
+
+    if (user) {
+      res.json(user);
+    } else {
+      res.status(404).json({ error: 'User not found' });
+    }
+  } catch (error) {
+    console.error('Error retrieving user information:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
 
 // Get all users
 router.get('/', async (req, res) => {
@@ -31,6 +68,28 @@ router.get('/:id', async (req, res) => {
     res.status(500).json({ error: 'Internal server error' });
   }
 });
+
+// Update a user's profileAvatar
+router.put('/:id/profile-avatar', authenticateToken, async (req, res) => {
+  const authenticatedUser = req.user;
+  const { id } = req.params;
+  const { profileAvatar } = req.body;
+
+  try {
+    const userToUpdate = await User.findByPk(id);
+    if (userToUpdate) {
+      userToUpdate.profileAvatar = profileAvatar;
+      await userToUpdate.save();
+      res.json(userToUpdate);
+    } else {
+      res.status(404).json({ error: 'User not found' });
+    }
+  } catch (error) {
+    console.error('Error updating user:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
 
 // Update a user
 router.put('/:id', authenticateToken, async (req, res) => {
