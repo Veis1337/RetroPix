@@ -5,9 +5,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "cd server && node server.js",
+    "start": "node server/server.js",
     "build": "cd client && npm run build",
     "frontend": "cd client && npm start",
+    "install": "cd server && npm i && cd ../client && npm i",
     "backend": "cd server && node server.js",
     "develop": "concurrently \"npm run frontend\" \"npm run backend\""
   },
