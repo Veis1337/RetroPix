@@ -1,5 +1,5 @@
 {
-  "name": "projex",
+  "name": "retropix-server",
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
