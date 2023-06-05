@@ -6,7 +6,7 @@
   "main": "index.js",
   "scripts": {
     "start": "cd server && node server.js",
-    "build": "react-scripts build",
+    "build": "cd client && npm run build",
     "frontend": "cd client && npm start",
     "backend": "cd server && node server.js",
     "develop": "concurrently \"npm run frontend\" \"npm run backend\""
@@ -28,6 +28,6 @@
     "web-vitals": "^3.3.1"
   },
   "engines": {
-    "node": "18.12.1"
+    "node": "18"
   }
 }
