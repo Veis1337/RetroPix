@@ -5,7 +5,7 @@ const { Sequelize } = require('sequelize');
 //   password: 'water111',
 //   host: process.env.DB_HOST,
 //   database: process.env.DB_NAME,
-//   // port: process.env.DB_PORT,
+//   port: process.env.DB_PORT,
 //   dialect: 'postgres',
 // };
 
@@ -15,8 +15,10 @@ const proConfig = {
   dialect: 'postgres',
 };
 
-const sequelize = new Sequelize(
-  process.env.NODE_ENV === 'production' ? proConfig : devConfig
-);
+// const sequelize = new Sequelize(
+//   process.env.NODE_ENV === 'production' ? proConfig : devConfig
+// );
+
+const sequelize = new Sequelize(proConfig);
 
 module.exports = sequelize;
