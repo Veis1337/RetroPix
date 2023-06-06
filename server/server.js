@@ -10,9 +10,9 @@ const app = express();
 const PORT = process.env.PORT || 5000;
 const routes = require('./routes');
 
-// const dotenv = require('dotenv').config({ path: path.resolve(__dirname, '../.env') });
+const dotenv = require('dotenv').config({ path: path.resolve(__dirname, '../.env') });
 
-// console.log(dotenv);
+console.log(dotenv);
 
 async function syncDatabase() {
   try {
@@ -37,16 +37,14 @@ app.use(bodyParser.json());
 // }
 
 // Proxy middleware
-if (process.env.NODE_ENV === 'development') {
-  // Proxy middleware
-  app.use(
-    '/api',
-    createProxyMiddleware({
-      target: 'http://localhost:5000',
-      changeOrigin: true,
-    })
-  );
-}
+// Proxy middleware
+app.use(
+  '/api',
+  createProxyMiddleware({
+    target: process.env.NODE_ENV === 'production' ? process.env.DATABASE_URL : 'http://localhost:5000',
+    changeOrigin: true,
+  })
+);
 
 
 // Routes
