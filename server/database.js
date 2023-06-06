@@ -17,7 +17,8 @@ function getProdConfig() {
     user: dbUrl.username,
     password: dbUrl.password,
     host: dbUrl.host,
-    database: dbUrl.pathname.replace("/", ""), // it's the /do8.... we have to remove the slash though
+    port: dbUrl.port,
+    database: dbUrl.pathname.replace("/", ""), // it's the /path.... we have to remove the slash though
     dialect: 'postgres',
   };
 }
