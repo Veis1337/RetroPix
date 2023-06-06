@@ -19,7 +19,14 @@ const proConfig = {
 //   process.env.NODE_ENV === 'production' ? proConfig : devConfig
 // );
 
-const sequelize = new Sequelize(process.env.DATABASE_URL);
+const sequelize = new Sequelize(process.env.DATABASE_URL, {
+  dialect: 'postgres',
+  dialectOptions: {
+    ssl: {
+      rejectUnauthorized: false,
+    },
+  },
+});
 
 
 module.exports = sequelize;
