@@ -12,7 +12,7 @@ const HomePage = () => {
         <p className="description">
           Explore a vibrant community of artists, upvote their creations, and engage in discussions in the comments. Get inspired, learn from others, and showcase your pixel art skills!
         </p>
-        <a href="/signup" className="cta-button">Get Started</a>
+        <a href="/signup" className="cta-button">Get Started, or just Draw Something!</a>
       </div>
     </div>
   );
