@@ -1,7 +1,7 @@
 {
   "name": "retropix",
   "version": "1.0.0",
-  "homepage": "./",
+  "homepage": "https://retro-pix.herokuapp.com/",
   "description": "",
   "main": "index.js",
   "scripts": {
