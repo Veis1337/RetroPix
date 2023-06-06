@@ -28,15 +28,10 @@ syncDatabase();
 
 // Middleware
 // app.use(cors());
-app.use(express.static(path.join(__dirname, "client/build")));
+app.use(express.static(path.join(__dirname, 'client', 'build')));
 app.use(cors({ origin: 'http://localhost:3000' }));
 app.use(bodyParser.json());
 
-// if (process.env.NODE_ENV === "production") {
-//   app.use(express.static(path.join(__dirname, "client/build")));
-// }
-
-// Proxy middleware
 // Proxy middleware
 app.use(
   '/api',
@@ -46,15 +41,15 @@ app.use(
   })
 );
 
-
 // Routes
 app.use(routes);
 
-// Start the server
-// app.listen(port, () => {
-//   console.log(`Server is running on port ${port}`);
-// });
+// Serve static files for any other routes
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'client', 'build', 'index.html'));
+});
 
-app.listen(process.env.PORT || 5000, () => {
-  console.log(`server has started on port ${process.env.PORT || 5000}`)
-})
+// Start the server
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
+});
