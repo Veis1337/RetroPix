@@ -9,6 +9,7 @@ const devConfig = {
   dialect: 'postgres',
 };
 
+// Deployment
 const proConfig = {
   connectionString: process.env.DATABASE_URL,
   dialect: 'postgres',
