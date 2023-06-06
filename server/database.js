@@ -12,6 +12,7 @@ const devConfig = {
 
 const proConfig = {
   connectionString: process.env.DATABASE_URL,
+  dialect: 'postgres',
 };
 
 const sequelize = new Sequelize(
