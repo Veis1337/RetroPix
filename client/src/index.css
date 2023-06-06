@@ -12,7 +12,7 @@ body {
 /* Background styles */
 body {
   background-color: #000;
-  background-image: url('./assets/Pix/GreenSlime.png'),
+  /* background-image: url('./assets/Pix/GreenSlime.png'),
                     url('./assets/Pix/GreenSlime.png'),
                     url('./assets/Pix/GreenSlime.png'),
                     url('./assets/Pix/GreenSlime.png'),
@@ -33,7 +33,7 @@ body {
                       20% 60%,
                       90% 90%,
                       10% 90%;
-  background-size: 150px;
+  background-size: 150px; */
 }
 
 /* Container styles */
