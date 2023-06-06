@@ -16,7 +16,7 @@ function getProdConfig() {
   return {
     user: dbUrl.username,
     password: dbUrl.password,
-    host: dbUrl.host,
+    host: dbUrl.hostname,
     port: dbUrl.port,
     database: dbUrl.pathname.replace("/", ""), // it's the /path.... we have to remove the slash though
     dialect: 'postgres',
