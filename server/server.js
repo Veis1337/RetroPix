@@ -10,10 +10,6 @@ const app = express();
 const PORT = process.env.PORT || 5000;
 const routes = require('./routes');
 
-const dotenv = require('dotenv').config({ path: path.resolve(__dirname, '../.env') });
-
-console.log(dotenv);
-
 async function syncDatabase() {
   try {
     await User.sync();
