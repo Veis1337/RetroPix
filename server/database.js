@@ -19,6 +19,7 @@ const proConfig = {
 //   process.env.NODE_ENV === 'production' ? proConfig : devConfig
 // );
 
-const sequelize = new Sequelize(proConfig);
+const sequelize = new Sequelize(process.env.DATABASE_URL);
+
 
 module.exports = sequelize;
