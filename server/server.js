@@ -22,11 +22,15 @@ async function syncDatabase() {
 
 syncDatabase();
 
+
+
 // Middleware
 // app.use(cors());
 app.use(express.static(path.join(__dirname, 'client', 'build')));
 app.use(cors({ origin: 'https://retro-pix.herokuapp.com/' }));
 app.use(bodyParser.json());
+
+
 
 // Proxy middleware
 app.use(
@@ -41,9 +45,16 @@ app.use(
 app.use(routes);
 
 // Serve static files for any other routes
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'client', 'build', 'index.html'));
-});
+// app.get('*', (req, res) => {
+//   res.sendFile(path.join(__dirname, 'client', 'build', 'index.html'));
+// });
+
+if (process.env.NODE_ENV === "production") {
+  app.use(express.static(path.join(__dirname, "../client/build")));
+  app.get("*", (req, res) => {
+    res.sendFile(path.join(__dirname, "../client/build/index.html"));
+  });
+}
 
 // Start the server
 app.listen(PORT, () => {
