@@ -25,7 +25,7 @@ syncDatabase();
 // Middleware
 // app.use(cors());
 app.use(express.static(path.join(__dirname, 'client', 'build')));
-app.use(cors({ origin: 'http://localhost:3000' }));
+app.use(cors({ origin: 'https://retro-pix.herokuapp.com/' }));
 app.use(bodyParser.json());
 
 // Proxy middleware
