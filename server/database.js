@@ -1,13 +1,13 @@
 const { Sequelize } = require('sequelize');
 
-const devConfig = {
-  user: process.env.DB_USER,
-  password: 'water111',
-  host: process.env.DB_HOST,
-  database: process.env.DB_NAME,
-  // port: process.env.DB_PORT,
-  dialect: 'postgres',
-};
+// const devConfig = {
+//   user: process.env.DB_USER,
+//   password: 'water111',
+//   host: process.env.DB_HOST,
+//   database: process.env.DB_NAME,
+//   // port: process.env.DB_PORT,
+//   dialect: 'postgres',
+// };
 
 // Deployment
 const proConfig = {
