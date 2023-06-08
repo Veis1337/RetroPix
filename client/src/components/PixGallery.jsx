@@ -1,17 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import './PixGallery.css'; 
+import './PixGallery.css';
 
 const PixGallery = () => {
   const [pictures, setPictures] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
-  const [userInfo, setUserInfo] = useState(null); // User information state
+  const [usernames, setUsernames] = useState({});
   const [error, setError] = useState(null); // Error state
 
   useEffect(() => {
     fetchPictures(currentPage);
-    fetchUserInfo(); // Fetch user information
     setError(null); // Clear the error state
   }, [currentPage]);
 
@@ -21,6 +20,7 @@ const PixGallery = () => {
       if (response.status === 200) {
         setPictures(response.data);
         setTotalPages(response.headers['x-total-pages']);
+        await fetchUsernames(response.data);
       } else {
         throw new Error('Failed to fetch pictures');
       }
@@ -28,19 +28,22 @@ const PixGallery = () => {
       console.error(error);
     }
   };
+  
 
-  const fetchUserInfo = async () => {
+  const fetchUsernames = async (pictures) => {
     try {
-      const response = await axios.get('/users/user-info'); 
+      const userIds = pictures.map((picture) => picture.userId);
+      const response = await axios.post('/users/usernames', { userIds });
       if (response.status === 200) {
-        setUserInfo(response.data); // Set the user information
+        setUsernames(response.data);
       } else {
-        throw new Error('Failed to fetch user info');
+        throw new Error('Failed to fetch usernames');
       }
     } catch (error) {
       console.error(error);
     }
   };
+  
 
   const handleNextPage = () => {
     if (currentPage < totalPages) {
@@ -66,16 +69,22 @@ const PixGallery = () => {
     }
   };
 
-  const getUsername = () => {
-    return userInfo?.username || 'Guest'; // Use the user info to get the username or default to 'Guest'
+  const getUsername = (picture) => {
+    if (picture.userId) {
+      return usernames[picture.userId] || 'Guest';
+    } else if (picture.guestUserId) {
+      return 'Guest';
+    } else {
+      return 'Unknown User';
+    }
   };
+  
+  
 
   return (
     <div className="pix-gallery">
       <h2 className="pix-gallery-heading">Welcome to RetroPix Pix Gallery!</h2>
-      <p className="pix-gallery-subheading">
-        Here's a gallery of random pictures created by users:
-      </p>
+      <p className="pix-gallery-subheading">Here's a gallery of random pictures created by users:</p>
       <div className="gallery">
         {pictures.map((picture) => {
           const drawingData = JSON.parse(picture.drawingData);
@@ -105,14 +114,12 @@ const PixGallery = () => {
                 ></canvas>
               </div>
               <p className="card-caption">{picture.caption}</p>
-              <p className="card-creator">
-                Created by: {getUsername()} {/* Display the username or "Guest" */}
-              </p>
+              <p className="card-creator">Created by: {getUsername(picture)}</p>
             </div>
           );
         })}
       </div>
-      {error && <p className="error-message">{error}</p>} {/* Display error message if there's an error */}
+      {error && <p className="error-message">{error}</p>}
       <div className="pagination">
         <button
           className="pagination-button mr-4 mt-4"

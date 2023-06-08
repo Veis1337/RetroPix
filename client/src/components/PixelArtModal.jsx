@@ -67,20 +67,24 @@ const PixelArtModal = ({ closeModal }) => {
 
   const handlePost = () => {
     setError(null); // Reset the error state
-
+  
     if (!validateTitle(title) || !validateCaption(caption)) {
       return; // Validation failed, exit the function
     }
-
+  
     const pictureData = {
       title: title,
       caption: caption,
       drawingData: JSON.stringify(pixels),
     };
-
+  
     // Send the pictureData to the backend API
     axios
-      .post("/pix", pictureData)
+      .post("/pix", pictureData, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      })
       .then((response) => {
         console.log("Picture model saved successfully!", response.data);
         closeModal(); // Close the modal after successful save
@@ -89,6 +93,9 @@ const PixelArtModal = ({ closeModal }) => {
         console.error("Error saving the Picture model:", error);
       });
   };
+  
+
+  
 
   return (
     <div className="pixel-art-modal">

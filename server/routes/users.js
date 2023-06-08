@@ -3,6 +3,29 @@ const router = express.Router();
 const { authenticateToken } = require('../middleware/auth');
 const User = require('../models/User');
 
+// Get usernames of users by their IDs
+router.post('/usernames', async (req, res) => {
+  const { userIds } = req.body;
+
+  try {
+    const users = await User.findAll({
+      where: { id: userIds },
+      attributes: ['id', 'username'],
+    });
+
+    const usernames = users.reduce((acc, user) => {
+      acc[user.id] = user.username;
+      return acc;
+    }, {});
+
+    res.json(usernames);
+  } catch (error) {
+    console.error('Error retrieving usernames:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
+
 // Update the user's about
 router.put('/:id/about', authenticateToken, async (req, res) => {
   const authenticatedUser = req.user;
