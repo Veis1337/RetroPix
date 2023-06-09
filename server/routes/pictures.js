@@ -52,6 +52,21 @@ router.post('/', authenticateToken, async (req, res) => {
   }
 });
 
+// Get pictures by user
+router.get('/user/:id', authenticateToken, async (req, res) => {
+  try {
+    const { id } = req.params;
+    const pictures = await Picture.findAll({
+      where: { userId: id },
+    });
+    res.json(pictures);
+  } catch (error) {
+    console.error('Error retrieving user pictures:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
+
 // Edit picture
 router.put('/:id', async (req, res) => {
   const { id } = req.params;

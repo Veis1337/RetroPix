@@ -152,7 +152,7 @@ const SignUp = ({ setIsLoggedIn }) => {
         {formData.isNewUser ? (
           <p>
             <button className="text-blue-700 border-2 border-blue-700 p-2 hover:text-blue-300" onClick={handleToggle}>
-              Log In
+              Back To Log In
             </button>
           </p>
         ) : (

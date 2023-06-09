@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import './UserProfile.css';
 import EditProfileModal from '../components/EditProfileModal';
+import jwtDecode from 'jwt-decode';
 
 const UserProfile = () => {
   const [user, setUser] = useState(null);
@@ -34,23 +35,33 @@ const UserProfile = () => {
     }
   };
 
-  const fetchUserPictures = async () => {
-    try {
-      const response = await axios.get('/pix');
-      if (response.status === 200) {
-        const fetchedPictures = response.data.map((picture) => ({
-          ...picture,
-          squareSize: Math.sqrt(JSON.parse(picture.drawingData).length),
-        }));
-        setPictures(fetchedPictures);
-      } else {
-        throw new Error('Failed to fetch user pictures');
-      }
-    } catch (error) {
-      console.error('Error fetching user pictures:', error);
-      setError('Failed to fetch user pictures');
+const fetchUserPictures = async () => {
+  try {
+    const token = localStorage.getItem('token');
+    const decodedToken = jwtDecode(token);
+    const userId = decodedToken.id;
+    const response = await axios.get(`/pix/user/${userId}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    if (response.status === 200) {
+      const fetchedPictures = response.data.map((picture) => ({
+        ...picture,
+        squareSize: Math.sqrt(JSON.parse(picture.drawingData).length),
+      }));
+      setPictures(fetchedPictures);
+    } else {
+      throw new Error('Failed to fetch user pictures');
     }
-  };
+  } catch (error) {
+    console.error('Error fetching user pictures:', error);
+    setError('Failed to fetch user pictures');
+  }
+};
+
+  
+  
 
   const handleEditPicture = async (picture) => {
     try {
