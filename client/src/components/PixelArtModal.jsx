@@ -98,7 +98,7 @@ const PixelArtModal = ({ closeModal }) => {
   
 
   return (
-    <div className="pixel-art-modal">
+    <div className="pixel-art-modal sm:fixed">
       <div className="modal-content">
         <div className="size-selection">
           <span className="color-selector-text">Color Selector</span>
@@ -138,13 +138,13 @@ const PixelArtModal = ({ closeModal }) => {
             15x15
           </button>
           <button
-            className={`grid-size-button ${gridSize === 25 ? "active" : ""}`}
+            className={`grid-size-button collapse md:visible ${gridSize === 25 ? "active" : ""}`}
             onClick={() => handleSizeChange(25)}
           >
             25x25
           </button>
           <button
-            className={`grid-size-button ${gridSize === 50 ? "active" : ""}`}
+            className={`grid-size-button collapse md:visible ${gridSize === 50 ? "active" : ""}`}
             onClick={() => handleSizeChange(50)}
           >
             50x50

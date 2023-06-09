@@ -1,5 +1,4 @@
 .pixel-art-modal {
-  position: fixed;
   top: 0;
   left: 0;
   width: 100%;
@@ -15,12 +14,13 @@
   padding: 1rem;
   border-radius: 4px;
   text-align: center;
-  max-width: 500px; /* Add max-width to limit the modal width */
-  width: 90%; /* Set a width to make the modal responsive */
+  max-width: 500px; 
+  width: 90%;
+  margin-top: 1rem;
 }
 
 .size-selection {
-  background-color: #FF00FF;
+  background-color: #4299e1;
   padding: 1rem;
   margin-bottom: 1rem;
 }
