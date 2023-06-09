@@ -26,7 +26,7 @@ const App = () => {
           <Route path="/signup" element={<SignUpPage setIsLoggedIn={setIsLoggedIn} />} />
           <Route path="/users" element={<UserList />} />
             <Route path="/" element={<HomePage />} />
-          <Route path="/pix" element={<PixGallery />} />
+          <Route path="/gallery" element={<PixGallery />} />
           <Route path="/profile" element={<UserProfile />} />
         </Routes>
       </div>

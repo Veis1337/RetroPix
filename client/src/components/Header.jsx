@@ -46,7 +46,7 @@ const Header = () => {
       <nav>
         <ul className="nav-list">
           <li className="nav-item">
-            <Link to="/pix">Home</Link>
+            <Link to="/gallery">Home</Link>
           </li>
           {!isLoggedIn && (
             <li className="nav-item">
