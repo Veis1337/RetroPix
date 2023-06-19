@@ -67,16 +67,18 @@ router.post('/login', async (req, res) => {
 });
 
 // User logout
-router.post('/logout', authenticateToken, async (req, res) => {
+router.post('/logout', (req, res) => {
   try {
-    // Destroy the token
-    req.token = null;
+    // Clear the token from the client-side
+    res.clearCookie('token');
+
     res.json({ message: 'Logout successful' });
   } catch (error) {
     console.error('Error logging out user:', error);
     res.status(500).json({ error: 'Internal server error' });
   }
 });
+
 
 
 module.exports = router;
