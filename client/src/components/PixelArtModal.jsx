@@ -5,7 +5,8 @@ import axios from "axios";
 const PixelArtModal = ({ closeModal }) => {
   const [gridSize, setGridSize] = useState(15);
   const [pixels, setPixels] = useState(Array(gridSize * gridSize).fill("#ffffff"));
-  const [selectedColor, setSelectedColor] = useState("#000000");
+  const [leftClickColor, setLeftClickColor] = useState("#000000");
+  const [rightClickColor, setRightClickColor] = useState("#ffffff");
   const [isGridTransparent, setIsGridTransparent] = useState(true);
   const [title, setTitle] = useState("");
   const [caption, setCaption] = useState("");
@@ -28,7 +29,8 @@ const PixelArtModal = ({ closeModal }) => {
 
   const handlePixelClick = (index, isRightClick) => {
     const newPixels = [...pixels];
-    newPixels[index] = isRightClick ? "#ffffff" : selectedColor;
+    const color = isRightClick ? rightClickColor : leftClickColor;
+    newPixels[index] = color;
     setPixels(newPixels);
   };
 
@@ -54,8 +56,12 @@ const PixelArtModal = ({ closeModal }) => {
     prevPixelIndexRef.current = null;
   };
 
-  const handleColorChange = (e) => {
-    setSelectedColor(e.target.value);
+  const handleLeftClickColorChange = (e) => {
+    setLeftClickColor(e.target.value);
+  };
+
+  const handleRightClickColorChange = (e) => {
+    setRightClickColor(e.target.value);
   };
 
   const handleGridToggle = () => {
@@ -146,8 +152,13 @@ const PixelArtModal = ({ closeModal }) => {
           <br />
           <input
             type="color"
-            value={selectedColor}
-            onChange={handleColorChange}
+            value={leftClickColor}
+            onChange={handleLeftClickColorChange}
+          />
+          <input
+            type="color"
+            value={rightClickColor}
+            onChange={handleRightClickColorChange}
           />
         </div>
 
