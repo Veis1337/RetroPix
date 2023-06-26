@@ -91,7 +91,7 @@ const PixelArtModal = ({ closeModal }) => {
 
   const validateTitle = (title) => {
     if (title.length > 14) {
-      setError("Title can only be up to 14 characters");
+      setError("Title can only be up to 14 characters.");
       return false;
     }
     return true;
@@ -112,11 +112,7 @@ const PixelArtModal = ({ closeModal }) => {
 
     // Send the pictureData to the backend API
     axios
-      .post("/pix", pictureData, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      })
+      .post("/pix", pictureData)
       .then((response) => {
         console.log("Picture model saved successfully!", response.data);
         closeModal(); // Close the modal after successful save
@@ -209,13 +205,24 @@ const PixelArtModal = ({ closeModal }) => {
         {/* Title form */}
         <div className="form-group">
           <label htmlFor="title">Title:</label>
-          <input type="text" id="title" value={title} onChange={handleTitleChange} />
+          <input
+            type="text"
+            id="title"
+            value={title}
+            onChange={handleTitleChange}
+            maxLength={14}
+          />
         </div>
 
         {/* Caption form */}
         <div className="form-group">
           <label htmlFor="caption">Caption:</label>
-          <textarea id="caption" value={caption} onChange={handleCaptionChange} />
+          <textarea
+            id="caption"
+            value={caption}
+            onChange={handleCaptionChange}
+            maxLength={100}
+          />
         </div>
 
         {error && <p className="error-message">{error}</p>} {/* Display error message if there's an error */}
