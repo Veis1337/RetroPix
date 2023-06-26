@@ -34,6 +34,8 @@
     align-items: center;
     min-height: 500px;
     transition: 0.5s ease;
+    opacity: 0; /* Initially hide the cards */
+    animation: fadeIn 0.5s forwards; /* Apply fade-in animation */
   }
   
   .card-title {
@@ -78,5 +80,16 @@
 
   .card-size-50 .card-image canvas {
     width: 100%;
+  }
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(20px); /* Initial position for the animation */
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0); /* Final position for the animation */
+    }
   }
   

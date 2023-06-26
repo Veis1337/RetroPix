@@ -12,28 +12,6 @@ body {
 /* Background styles */
 body {
   background-color: #000;
-  /* background-image: url('./assets/Pix/GreenSlime.png'),
-                    url('./assets/Pix/GreenSlime.png'),
-                    url('./assets/Pix/GreenSlime.png'),
-                    url('./assets/Pix/GreenSlime.png'),
-                    url('./assets/Pix/GreenSlime.png'),
-                    url('./assets/Pix/GreenSlime.png'),
-                    url('./assets/Pix/GreenSlime.png'),
-                    url('./assets/Pix/GreenSlime.png'),
-                    url('./assets/Pix/GreenSlime.png'),
-                    url('./assets/Pix/GreenSlime.png');
-  background-repeat: no-repeat;
-  background-position: 10% 20%,
-                      40% 50%,    
-                      60% 80%,
-                      30% 70%,
-                      70% 10%,
-                      80% 40%,
-                      50% 30%,
-                      20% 60%,
-                      90% 90%,
-                      10% 90%;
-  background-size: 150px; */
 }
 
 /* Container styles */
