@@ -35,4 +35,8 @@ const sequelize = new Sequelize(
   process.env.NODE_ENV === 'production' ? getProdConfig() : devConfig
 );
 
+// const sequelize = new Sequelize(
+//   process.env.NODE_ENV === 'production' ? getProdConfig() : getProdConfig()
+// );
+
 module.exports = sequelize;
