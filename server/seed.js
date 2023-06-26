@@ -13,22 +13,6 @@ const seedDatabase = async () => {
     // Recreate the database schema
     await sequelize.sync({ force: true });
 
-    // Create new users
-    await User.bulkCreate([
-      {
-        username: 'john_doe',
-        password: 'password123',
-        about: 'Hello, I am John Doe. Nice to meet you!',
-        email: 'john@example.com',
-      },
-      {
-        username: 'jane_smith',
-        password: 'password456',
-        about: 'Hi, I am Jane Smith. Welcome to my profile!',
-        email: 'jane@example.com',
-      },
-    ]);
-
     console.log('Database seeded successfully');
   } catch (error) {
     console.error('Error seeding the database:', error);
