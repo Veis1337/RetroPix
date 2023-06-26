@@ -33,6 +33,7 @@
     justify-content: flex-start;
     align-items: center;
     min-height: 500px;
+    transition: 0.5s ease;
   }
   
   .card-title {

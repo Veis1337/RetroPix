@@ -1,5 +1,7 @@
 const { Sequelize, DataTypes, Model } = require('sequelize');
 const sequelize = require('../database');
+const User = require('./User');
+const Picture = require('./Picture');
 
 class Comment extends Model {}
 
@@ -18,7 +20,7 @@ Comment.init(
       type: DataTypes.UUID,
       allowNull: false,
       references: {
-        model: 'Users',
+        model: User,
         key: 'id',
       },
       onUpdate: 'CASCADE',
@@ -28,7 +30,7 @@ Comment.init(
       type: DataTypes.UUID,
       allowNull: false,
       references: {
-        model: 'Pictures',
+        model: Picture,
         key: 'id',
       },
       onUpdate: 'CASCADE',

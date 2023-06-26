@@ -83,7 +83,7 @@ const PixelArtModal = ({ closeModal }) => {
 
   const validateCaption = (caption) => {
     if (caption.length > 100) {
-      setError("Caption should be up to 100 characters");
+      setError("Caption can only be up to 100 characters.");
       return false;
     }
     return true;
@@ -91,7 +91,7 @@ const PixelArtModal = ({ closeModal }) => {
 
   const validateTitle = (title) => {
     if (title.length > 14) {
-      setError("Title should be up to 14 characters");
+      setError("Title can only be up to 14 characters");
       return false;
     }
     return true;

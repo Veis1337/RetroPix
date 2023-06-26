@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import './PixGallery.css';
+import CommentModal from './CommentModal';
 
 const PixGallery = () => {
   const [pictures, setPictures] = useState([]);
@@ -8,6 +9,8 @@ const PixGallery = () => {
   const [totalPages, setTotalPages] = useState(1);
   const [usernames, setUsernames] = useState({});
   const [error, setError] = useState(null); // Error state
+  const [selectedPicture, setSelectedPicture] = useState(null); // Selected picture for comments
+  const [showCommentModal, setShowCommentModal] = useState(false); // Comment modal visibility
 
   useEffect(() => {
     fetchPictures(currentPage);
@@ -28,7 +31,6 @@ const PixGallery = () => {
       console.error(error);
     }
   };
-  
 
   const fetchUsernames = async (pictures) => {
     try {
@@ -43,7 +45,6 @@ const PixGallery = () => {
       console.error(error);
     }
   };
-  
 
   const handleNextPage = () => {
     if (currentPage < totalPages) {
@@ -78,8 +79,11 @@ const PixGallery = () => {
       return 'Unknown User';
     }
   };
-  
-  
+
+  const handlePictureClick = (picture) => {
+    setSelectedPicture(picture);
+    setShowCommentModal(true);
+  };
 
   return (
     <div className="pix-gallery">
@@ -93,7 +97,7 @@ const PixGallery = () => {
           const cardSizeClass = getCardSizeClass(squareSize);
 
           return (
-            <div key={picture.id} className={`card ${cardSizeClass}`}>
+            <div key={picture.id} className={`card ${cardSizeClass} hover:cursor-pointer hover:scale-110`} onClick={() => handlePictureClick(picture)}>
               <h3 className="card-title">{picture.title}</h3>
               <div className="card-image">
                 <canvas
@@ -120,6 +124,9 @@ const PixGallery = () => {
         })}
       </div>
       {error && <p className="error-message">{error}</p>}
+      {showCommentModal && selectedPicture && (
+        <CommentModal picture={selectedPicture} closeModal={() => setShowCommentModal(false)} />
+      )}
       <div className="pagination">
         <button
           className="pagination-button mr-4 mt-4"
