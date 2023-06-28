@@ -1,12 +1,13 @@
-import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
-import axios from 'axios';
+import React, { useState, useEffect, useRef } from "react";
+import { useParams } from "react-router-dom";
+import axios from "axios";
 
 const AILBotChatPage = () => {
   const { botId } = useParams();
   const [messages, setMessages] = useState([]);
-  const [userMessage, setUserMessage] = useState('');
+  const [userMessage, setUserMessage] = useState("");
   const [activeBot, setActiveBot] = useState(null);
+  const chatContainerRef = useRef(null);
 
   useEffect(() => {
     fetchBotList();
@@ -14,11 +15,11 @@ const AILBotChatPage = () => {
 
   const fetchBotList = async () => {
     try {
-      const response = await axios.get('/bots');
+      const response = await axios.get("/bots");
       const botList = response.data;
-      setActiveBot(botList.find(bot => bot.id === botId));
+      setActiveBot(botList.find((bot) => bot.id === botId));
     } catch (error) {
-      console.error('Error fetching bot list:', error);
+      console.error("Error fetching bot list:", error);
     }
   };
 
@@ -29,43 +30,63 @@ const AILBotChatPage = () => {
   const fetchInitialBotMessage = async () => {
     if (activeBot) {
       try {
-        const response = await axios.get(`/bots/${activeBot.id}`);
-        const bot = response.data;
-
         // Set the initial message sent by the bot
-        const initialBotMessage = { sender: 'bot', content: bot.firstMessage };
+        const initialBotMessage = {
+          sender: "bot",
+          content: activeBot.firstMessage,
+        };
         setMessages([initialBotMessage]);
       } catch (error) {
-        console.error('Error fetching bot:', error);
+        console.error("Error fetching bot:", error);
       }
     }
   };
 
   const handleSendMessage = async () => {
-    if (userMessage.trim() !== '') {
-      const newUserMessage = { sender: 'user', content: userMessage };
-      setMessages((prevMessages) => [...prevMessages, newUserMessage].slice(-10));
+    if (userMessage.trim() !== "") {
+      const newUserMessage = { sender: "user", content: userMessage };
+      const updatedMessages = [...messages, newUserMessage].slice(-100);
+      setMessages(updatedMessages);
 
       try {
-        // Prepare the chat history for the bot
-        const chatHistory = messages.slice(-10).map((message) => message.content);
+        const chatHistory = updatedMessages.map((message) => ({
+          role: message.sender === "user" ? "user" : "assistant",
+          content: message.content,
+        }));
 
-        // Send user message and chat history to the bot
         const response = await axios.post(`/bots/${activeBot.id}/messages`, {
           message: newUserMessage.content,
-
+          chatHistory: chatHistory.slice(-100), // Pass the latest 100 messages as chat history
         });
-        const botResponse = response.data;
 
-        // Add the bot's response to the messages
-        const newBotMessage = { sender: 'bot', content: botResponse };
-        setMessages((prevMessages) => [...prevMessages, newBotMessage].slice(-10));
+        const botResponse = response.data.response;
+
+        const newBotMessage = {
+          sender: "bot",
+          content: botResponse.choices[0].message.content,
+        };
+        setMessages([...updatedMessages, newBotMessage].slice(-100));
       } catch (error) {
-        console.error('Error sending message:', error);
+        console.error("Error sending message:", error);
       }
 
-      // Reset the input field
-      setUserMessage('');
+      setUserMessage("");
+    }
+  };
+
+  useEffect(() => {
+    scrollChatToBottom();
+  }, [messages]);
+
+  const scrollChatToBottom = () => {
+    if (chatContainerRef.current) {
+      chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
+    }
+  };
+
+  const handleKeyDown = (e) => {
+    if (e.keyCode === 13) {
+      handleSendMessage();
     }
   };
 
@@ -79,17 +100,21 @@ const AILBotChatPage = () => {
         <img className="bot-avatar" src={activeBot.avatar} alt="Bot Avatar" />
         <h3 className="bot-name">{activeBot.name}</h3>
       </div>
-      <div className="chat-container">
+      <div className="chat-container" ref={chatContainerRef}>
         <div className="chat-messages">
-          {messages.slice(-10).map((message, index) => {
+          {messages.slice(-100).map((message, index) => {
             const { sender, content } = message;
-            let renderedContent;
+            let renderedContent = "";
 
-            if (typeof content === 'object' && content.response) {
-              // Extract the content from the response object
-              renderedContent = content.response.choices[0].message.content;
-            } else {
-              // Render the content as is
+            if (
+              typeof content === "object" &&
+              content.choices &&
+              content.choices.length > 0
+            ) {
+              // Extract the content from the first choice's message
+              renderedContent = content.choices[0].message.content;
+            } else if (typeof content === "string") {
+              // Render the content as a plain string
               renderedContent = content;
             }
 
@@ -106,6 +131,7 @@ const AILBotChatPage = () => {
             placeholder="Type your message..."
             value={userMessage}
             onChange={(e) => setUserMessage(e.target.value)}
+            onKeyDown={handleKeyDown} // Add the keydown event handler
           />
           <button onClick={handleSendMessage}>Send</button>
         </div>

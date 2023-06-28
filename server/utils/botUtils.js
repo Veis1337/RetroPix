@@ -8,7 +8,7 @@ async function generateBotResponse(messages, responsePrompt) {
 
   const headers = {
     'Content-Type': 'application/json',
-    'Authorization': `Bearer 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` // Use the environment variable for API key
+    'Authorization': `Bearer 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` // Use the environment variable for API key
   };
 
   const requestData = {

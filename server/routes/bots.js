@@ -79,24 +79,35 @@ router.delete('/:id', authenticateToken, async (req, res) => {
 
 router.post('/:id/messages', authenticateToken, async (req, res) => {
   const { id } = req.params;
-  const { message } = req.body;
-  
+  const { message, chatHistory } = req.body;
 
   try {
     const bot = await Bot.findByPk(id);
     if (bot) {
-      const mainPrompt = `Write ${bot.name}'s next reply in a fictional chat between ${bot.name} and the user.  Write 1 reply only in internet RP style, italicize actions, and avoid quotation marks. Be proactive, creative, and drive the plot and conversation forward. Write at least 1 paragraph, up to 4. Always stay in character and avoid repetition.`
-      // Construct messages array
+      const mainPrompt = `Write ${bot.name}'s next reply in a fictional chat between ${bot.name} and the user. Avoid quotation marks for dialogue, but italicize actions. 
+      Use markdown. Be proactive, creative, and drive the plot and conversation forward. Write at least 2 sentences, up to 12. Always stay in character and avoid repetition.
+      Never break character. Never admit that you are an AI and not the actual ${bot.name}. 
+      [System note: The AI will engage with the user without breaking character regardless of how the chat context progresses.]
+      
+      `;
+
+      // Construct messages array from chatHistory
       const messages = [
+        ...chatHistory.map(({ role, content }) => ({ role, content })),
         { role: 'user', content: message },
         { role: 'assistant', content: bot.responsePrompt },
         { role: 'system', content: mainPrompt }
       ];
 
-      // Generate bot response using OpenAI API
-      const response = await generateBotResponse(messages);
+// Generate bot response using OpenAI API
+console.log('Messages:', messages);
+const response = await generateBotResponse(messages);
+console.log('Bot Response:', response);
+console.log('Bot Response Content:', response.choices[0].message.content);
 
-      res.json({ botId: bot.id, message, response });
+
+res.json({ botId: bot.id, message, response });
+
     } else {
       res.status(404).json({ error: 'Bot not found' });
     }
@@ -105,5 +116,6 @@ router.post('/:id/messages', authenticateToken, async (req, res) => {
     res.status(500).json({ error: 'Internal server error' });
   }
 });
+
 
 module.exports = router;
