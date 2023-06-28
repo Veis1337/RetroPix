@@ -18,10 +18,6 @@ Bot.init(
       type: DataTypes.STRING(4000), // Update the data type and set the max length to 4000 characters
       allowNull: false,
     },
-    accessToken: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
     personality: {
       type: DataTypes.JSONB,
       allowNull: true,
