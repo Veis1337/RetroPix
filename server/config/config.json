@@ -1,0 +1,26 @@
+{
+  "development": {
+    "username": "postgres",
+    "password": "water111",
+    "database": "retropix_db",
+    "host": "localhost",
+    "dialect": "postgres",
+    "migrations": "./server/migrations" 
+  },
+  "test": {
+    "username": "postgres",
+    "password": "water111",
+    "database": "retropix_db",
+    "host": "127.0.0.1",
+    "dialect": "postgres",
+    "migrations": "./server/migrations" 
+  },
+  "production": {
+    "username": "hzufnqdfgeiejx",
+    "password": "764e8272856e364392d9e170f8f224a75bed431409a70589540e314031783312",
+    "database": "dd41ktda7ioobh",
+    "host": "ec2-18-211-215-8.compute-1.amazonaws.com",
+    "dialect": "postgres",
+    "migrations": "./server/migrations"
+  }
+}

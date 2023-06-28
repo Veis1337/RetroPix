@@ -1,5 +1,8 @@
 const User = require('./models/User');
 const Picture = require('./models/Picture');
+const Bot = require('./models/Bot');
+const Comment = require('./models/Comment');
+const Upvote = require('./models/Upvote');
 const path = require('path');
 const express = require('express');
 const cors = require('cors');
@@ -14,6 +17,9 @@ async function syncDatabase() {
   try {
     await User.sync();
     await Picture.sync();
+    await Bot.sync();
+    await Comment.sync();
+    await Upvote.sync();
     console.log('Database models synchronized successfully');
   } catch (error) {
     console.error('Error synchronizing database models:', error);
