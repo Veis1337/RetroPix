@@ -45,6 +45,7 @@ const SignUp = ({ setIsLoggedIn }) => {
           localStorage.setItem('token', response.data.token); // Save the token to localStorage
           setIsLoggedIn(true); // Set the isLoggedIn state to true
           navigate('/'); // Redirect to the home page
+          window.location.reload(); // Refresh the page
         } else {
           alert('User registration failed');
         }
@@ -64,6 +65,7 @@ const SignUp = ({ setIsLoggedIn }) => {
           localStorage.setItem('token', response.data.token); // Save the token to localStorage
           setIsLoggedIn(true); // Set the isLoggedIn state to true
           navigate('/'); // Redirect to the home page
+          window.location.reload(); // Refresh the page
         } else {
           alert('Login failed');
         }
@@ -72,6 +74,7 @@ const SignUp = ({ setIsLoggedIn }) => {
       }
     }
   };
+  
   
 
   return (

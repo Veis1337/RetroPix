@@ -52,6 +52,7 @@ router.post('/', authenticateToken, async (req, res) => {
   }
 });
 
+
 // Get pictures by user
 router.get('/user/:id', authenticateToken, async (req, res) => {
   try {

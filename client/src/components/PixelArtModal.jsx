@@ -121,11 +121,13 @@ const PixelArtModal = ({ closeModal }) => {
       .then((response) => {
         console.log("Picture model saved successfully!", response.data);
         closeModal(); // Close the modal after successful save
+        window.location.reload(); // Refresh the page
       })
       .catch((error) => {
         console.error("Error saving the Picture model:", error);
       });
   };
+  
   
 
   const renderPixels = () => {

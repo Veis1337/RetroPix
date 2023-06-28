@@ -27,7 +27,7 @@ const PixGallery = () => {
 
   const fetchPictures = async (page) => {
     try {
-      const response = await axios.get(`/pix?page=${page}`);
+      const response = await axios.get(`/pix?page=${page}&limit=20`); // Add limit parameter
       if (response.status === 200) {
         setPictures(response.data);
         setTotalPages(response.headers['x-total-pages']);

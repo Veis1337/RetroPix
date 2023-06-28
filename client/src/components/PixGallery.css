@@ -33,9 +33,9 @@
     justify-content: flex-start;
     align-items: center;
     min-height: 500px;
-    transition: 0.5s ease;
+    transition: 0.4s ease;
     opacity: 0; /* Initially hide the cards */
-    animation: fadeIn 0.5s forwards; /* Apply fade-in animation */
+    animation: fadeIn 0.4s forwards; /* Apply fade-in animation */
   }
   
   .card-title {

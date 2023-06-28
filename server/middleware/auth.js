@@ -9,10 +9,13 @@ function authenticateToken(req, res, next) {
   } else {
     jwt.verify(token, 'secret', (err, user) => {
       if (err) {
-        return res.status(403).json({ error: 'Invalid token' });
+        // Invalid token, but allow guest users to proceed
+        req.user = { id: 'Guest' };
+        next();
+      } else {
+        req.user = user;
+        next();
       }
-      req.user = user;
-      next();
     });
   }
 }
@@ -20,4 +23,3 @@ function authenticateToken(req, res, next) {
 module.exports = {
   authenticateToken,
 };
-

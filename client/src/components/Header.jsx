@@ -33,6 +33,7 @@ const Header = () => {
       .post('/auth/logout')
       .then((response) => {
         console.log(response.data);
+        localStorage.removeItem('token'); // Remove token from localStorage
         setIsLoggedIn(false);
         navigate('/');
       })
@@ -40,6 +41,7 @@ const Header = () => {
         console.error('Error logging out:', error);
       });
   };
+  
 
   return (
     <header className="header">
