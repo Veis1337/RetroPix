@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import axios from 'axios'; // Import axios for making HTTP requests
+
 import SignUpPage from './pages/SignUpPage';
 import HomePage from './pages/HomePage';
 import UserList from './components/UserList';
@@ -19,6 +21,17 @@ const App = () => {
       setIsLoggedIn(true);
     }
   }, []);
+
+  // Define an axios interceptor to include the token in the request headers
+  axios.interceptors.request.use((config) => {
+    const token = localStorage.getItem('token');
+
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
+
+    return config;
+  });
 
   return (
     <Router>

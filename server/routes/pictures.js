@@ -35,15 +35,15 @@ router.post('/', authenticateToken, async (req, res) => {
   const { title, caption, drawingData } = req.body;
 
   try {
-    if (req.user.id === 'Guest') {
-      // Guest user
-      const guestUserId = 'Guest';
-      const picture = await Picture.create({ title, caption, drawingData, guestUserId });
-      res.status(201).json(picture);
-    } else {
+    if (req.user && req.user.id !== 'Guest') {
       // Authenticated user
       const userId = req.user.id;
       const picture = await Picture.create({ title, caption, drawingData, userId });
+      res.status(201).json(picture);
+    } else {
+      // Guest user
+      const guestUserId = 'Guest';
+      const picture = await Picture.create({ title, caption, drawingData, guestUserId });
       res.status(201).json(picture);
     }
   } catch (error) {
