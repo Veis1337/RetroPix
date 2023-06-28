@@ -84,12 +84,6 @@ const AILBotChatPage = () => {
     }
   };
 
-  const handleKeyDown = (e) => {
-    if (e.keyCode === 13) {
-      handleSendMessage();
-    }
-  };
-
   if (!activeBot) {
     return <div>Loading...</div>;
   }
@@ -131,7 +125,6 @@ const AILBotChatPage = () => {
             placeholder="Type your message..."
             value={userMessage}
             onChange={(e) => setUserMessage(e.target.value)}
-            onKeyDown={handleKeyDown} // Add the keydown event handler
           />
           <button onClick={handleSendMessage}>Send</button>
         </div>
