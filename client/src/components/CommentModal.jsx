@@ -43,6 +43,7 @@ const CommentModal = ({ picture, closeModal }) => {
         closeModal(); // Close the modal after successful save
       })
       .catch((error) => {
+        alert('Please log in to post comments.');
         console.error("Error saving the comment:", error);
       });
   };

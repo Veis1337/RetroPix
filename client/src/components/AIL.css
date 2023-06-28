@@ -1,0 +1,107 @@
+/* AILHomePage specific styles */
+.ail-homepage {
+  text-align: center;
+  font-family: Georgia, 'Times New Roman', Times, serif;
+}
+
+.ail-bot-chat-page {
+  text-align: center;
+  font-family: Georgia, 'Times New Roman', Times, serif;
+}
+
+.bot-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.bot-card {
+  flex: 1 0 30%;
+  max-width: 300px;
+  min-height: 400px;
+  padding: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  text-align: center;
+  text-decoration: none;
+  color: #333;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.bot-card:hover {
+  background-color: #f1f1f1;
+}
+
+.bot-card h3 {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.bot-card p {
+  margin-bottom: 1rem;
+}
+
+/* AILBotChatPage specific styles */
+.ail-bot-chat-page {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end; /* Align chat window to the bottom */
+  align-items: center;
+  height: 90vh;
+}
+
+.chat-container {
+  width: 80%;
+  max-height: 70vh; /* Set a maximum height for the chat window */
+  min-height: 40vh;
+  overflow-y: auto; /* Enable vertical scrolling */
+  padding: 1rem;
+  border: 1px solid #a1f8b7;
+  border-radius: 4px;
+  margin-bottom: 1rem; /* Add a margin to raise the chat window */
+}
+
+.chat-messages {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  overflow-y: scroll;
+}
+
+
+.message {
+  margin-bottom: 0.5rem;
+  padding: 0.5rem;
+  border-radius: 4px;
+}
+
+.bot p {
+  border-radius: 10px;
+  background-color: #eebf83;
+  padding: .5rem;
+  font-size: large;
+}
+
+.user p {
+  border-radius: 10px;
+  background-color: #adcbec;
+  padding: .5rem;
+  font-size: large;
+}
+
+.chat-input input {
+  width: 80%;
+  padding: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.chat-input button {
+  padding: 0.5rem 1rem;
+  background-color: #4299e1;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+}
