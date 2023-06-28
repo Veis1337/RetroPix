@@ -8,7 +8,7 @@ async function generateBotResponse(messages, responsePrompt) {
 
   const headers = {
     'Content-Type': 'application/json',
-    'Authorization': `Bearer ${process.env.OPENAI_API_KEY}` // Use the environment variable for API key
+    'Authorization': `Bearer ${process.env.OPENAI_API_KEY}` // Use the environment variable for API key, hopefully it works on heroku...
   };
 
   const requestData = {
