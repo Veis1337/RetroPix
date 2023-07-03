@@ -11,7 +11,15 @@ const AILBotChatPage = () => {
 
   useEffect(() => {
     fetchBotList();
+    const storedMessages = localStorage.getItem("botMessages");
+    if (storedMessages) {
+      setMessages(JSON.parse(storedMessages));
+    }
   }, []);
+
+  useEffect(() => {
+    fetchInitialBotMessage();
+  }, [activeBot]);
 
   const fetchBotList = async () => {
     try {
@@ -30,7 +38,6 @@ const AILBotChatPage = () => {
   const fetchInitialBotMessage = async () => {
     if (activeBot) {
       try {
-        // Set the initial message sent by the bot
         const initialBotMessage = {
           sender: "bot",
           content: activeBot.firstMessage,
@@ -56,7 +63,7 @@ const AILBotChatPage = () => {
 
         const response = await axios.post(`/bots/${activeBot.id}/messages`, {
           message: newUserMessage.content,
-          chatHistory: chatHistory.slice(-100), // Pass the latest 100 messages as chat history
+          chatHistory: chatHistory.slice(-100),
         });
 
         const botResponse = response.data.response;
@@ -75,6 +82,7 @@ const AILBotChatPage = () => {
   };
 
   useEffect(() => {
+    localStorage.setItem("botMessages", JSON.stringify(messages));
     scrollChatToBottom();
   }, [messages]);
 
@@ -105,10 +113,8 @@ const AILBotChatPage = () => {
               content.choices &&
               content.choices.length > 0
             ) {
-              // Extract the content from the first choice's message
               renderedContent = content.choices[0].message.content;
             } else if (typeof content === "string") {
-              // Render the content as a plain string
               renderedContent = content;
             }
 

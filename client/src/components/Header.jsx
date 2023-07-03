@@ -50,6 +50,9 @@ const Header = () => {
           <li className="nav-item">
             <Link to="/gallery">Home</Link>
           </li>
+          <li className="nav-item">
+            <Link to="/ail">A.I.L</Link>
+          </li>
           {!isLoggedIn && (
             <li className="nav-item">
               <Link to="/signup">Sign Up / Log In</Link>
