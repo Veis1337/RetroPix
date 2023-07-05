@@ -4,7 +4,9 @@ import axios from "axios";
 
 const PixelArtModal = ({ closeModal }) => {
   const [gridSize, setGridSize] = useState(15);
-  const [pixels, setPixels] = useState(Array(gridSize * gridSize).fill("#ffffff"));
+  const [pixels, setPixels] = useState(
+    Array(gridSize * gridSize).fill("#ffffff")
+  );
   const [leftClickColor, setLeftClickColor] = useState("#000000");
   const [rightClickColor, setRightClickColor] = useState("#ffffff");
   const [isGridTransparent, setIsGridTransparent] = useState(true);
@@ -30,7 +32,11 @@ const PixelArtModal = ({ closeModal }) => {
 
   const handlePixelClick = (index, isRightClick) => {
     const newPixels = [...pixels];
-    const color = eraserMode ? "#ffffff" : isRightClick ? rightClickColor : leftClickColor;
+    const color = eraserMode
+      ? "#ffffff"
+      : isRightClick
+      ? rightClickColor
+      : leftClickColor;
     newPixels[index] = color;
     setPixels(newPixels);
   };
@@ -214,10 +220,12 @@ const PixelArtModal = ({ closeModal }) => {
         </div>
         <div className="grid-size-toggle">
           <button
-            className={`grid-size-button ${gridSize === 15 ? "active" : ""}`}
+            className={`grid-size-button collapse md:visible ${
+              gridSize === 15 ? "active" : ""
+            }`}
             onClick={() => handleSizeChange(15)}
           >
-           15x15
+            15x15
           </button>
           <button
             className={`grid-size-button collapse md:visible ${
