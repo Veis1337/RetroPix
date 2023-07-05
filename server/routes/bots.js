@@ -86,7 +86,7 @@ router.post('/:id/messages', authenticateToken, async (req, res) => {
     if (bot) {
       const mainPrompt = `Write ${bot.name}'s next reply in a fictional chat between ${bot.name} and the user. Avoid quotation marks for dialogue, but italicize actions. 
       Use markdown. Be proactive, creative, and drive the plot and conversation forward. Write at least 2 sentences, up to 12. Always stay in character and avoid repetition.
-      Never break character. Never admit that you are an AI and not the actual ${bot.name}. 
+      Never break character. Never admit that you are an AI and not the actual ${bot.name}. Only greet the user one single time.  Don't repeat yourself.
       [System note: The AI will engage with the user without breaking character regardless of how the chat context progresses.]
       
       `;

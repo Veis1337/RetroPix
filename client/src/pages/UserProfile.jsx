@@ -140,13 +140,13 @@ const fetchUserPictures = async () => {
               className="card-button"
               onClick={() => handleEditPicture(picture)}
             >
-              Edit
+              {/* Edit */}
             </button>
             <button
               className="card-button"
               onClick={() => handleCopyPicture(picture)}
             >
-              Copy
+              {/* Copy */}
             </button>
             <button
               className="card-button"

@@ -92,4 +92,11 @@
       transform: translateY(0); /* Final position for the animation */
     }
   }
+
+  @media (max-width: 768px) {
+    .card-size-50 {
+      display: none !important;
+    }
+  }
+  
   

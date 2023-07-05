@@ -46,3 +46,16 @@
 .logout-button:hover {
   color: #f44336;
 }
+
+@media (max-width: 768px) {
+  .header {
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: center;
+  }
+
+  .nav-list {
+    flex-direction: column;
+    align-items: center;
+  }
+}

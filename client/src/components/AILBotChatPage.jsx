@@ -140,3 +140,5 @@ const AILBotChatPage = () => {
 };
 
 export default AILBotChatPage;
+
+// TODO - We tried to implement localStorage to keep track of bot conversation history... But failed thus far. Get back to it another time. 

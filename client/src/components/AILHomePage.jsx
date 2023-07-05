@@ -29,7 +29,7 @@ const AILHomePage = () => {
     <div className="ail-homepage">
       <h2>Welcome to AIL Instant Messenger</h2>
       <p>Choose a bot to chat with.  These bots have been built to emulate their portrayed character, and to have context within your current conversation.
-        They use JSON stored within a React State to be able to reference the conversation history, which is unlike typical AI chat bots which only have context to the most recent inquiry.  
+        They use JSON stored within a React State to reference the conversation history, which is unlike typical AI chat bots that only have context to the most recent inquiry.  
       </p>
       <div className="bot-list">
         {botList.map((bot) => (

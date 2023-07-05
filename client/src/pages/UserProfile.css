@@ -151,5 +151,11 @@
       font-size: 1rem;
     }
   }
+
+  @media (max-width: 768px) {
+    .card-size-50 {
+      display: none !important;
+    }
+  }
   
   
