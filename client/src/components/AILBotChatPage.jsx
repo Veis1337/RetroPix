@@ -81,6 +81,13 @@ const AILBotChatPage = () => {
     }
   };
 
+  const handleKeyDown = (e) => {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      handleSendMessage();
+    }
+  };
+
   useEffect(() => {
     localStorage.setItem("botMessages", JSON.stringify(messages));
     scrollChatToBottom();
@@ -103,6 +110,7 @@ const AILBotChatPage = () => {
         <h3 className="bot-name">{activeBot.name}</h3>
       </div>
       <div className="chat-container" ref={chatContainerRef}>
+```jsx
         <div className="chat-messages">
           {messages.slice(-100).map((message, index) => {
             const { sender, content } = message;
@@ -131,8 +139,9 @@ const AILBotChatPage = () => {
             placeholder="Type your message..."
             value={userMessage}
             onChange={(e) => setUserMessage(e.target.value)}
+            onKeyDown={handleKeyDown} // Handle Enter key press
           />
-          <button onClick={handleSendMessage}>Send</button>
+          <button onClick={handleSendMessage} className="send">Send</button>
         </div>
       </div>
     </div>
@@ -140,5 +149,6 @@ const AILBotChatPage = () => {
 };
 
 export default AILBotChatPage;
+
 
 // TODO - We tried to implement localStorage to keep track of bot conversation history... But failed thus far. Get back to it another time. 

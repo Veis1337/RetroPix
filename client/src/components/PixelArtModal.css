@@ -32,6 +32,24 @@
   margin-right: 0.5rem;
 }
 
+.eraser-button {
+  margin-top: 1rem;
+  margin-bottom: 0.5rem;
+  padding: 0.5rem 1rem;
+  border: 1px solid #e68be9;
+  border-radius: 10px;
+  font-size: 0.8rem;
+  background-color: #ffffff;
+  color: #e68be9;
+  transition: background-color 0.3s ease;
+}
+
+.eraser-button.active {
+  background-color: #f44336;
+  color: #ffffff;
+}
+
+
 .pixel-grid {
   display: grid;
   grid-gap: 0;

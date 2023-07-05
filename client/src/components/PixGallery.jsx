@@ -99,6 +99,22 @@ const PixGallery = () => {
     <div className="pix-gallery">
       <h2 className="pix-gallery-heading">Welcome to RetroPix Pix Gallery!</h2>
       <p className="pix-gallery-subheading">Here's a gallery of random pictures created by users:</p>
+      <div className="pagination">
+        <button
+          className="pagination-button mr-4 mt-4"
+          onClick={handlePreviousPage}
+          disabled={currentPage === 1}
+        >
+          Previous
+        </button>
+        <button
+          className="pagination-button"
+          onClick={handleNextPage}
+          disabled={currentPage === totalPages}
+        >
+          Next
+        </button>
+      </div>
       {loading ? (
         <p className="loading-message">Loading...</p>
       ) : (

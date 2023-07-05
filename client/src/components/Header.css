@@ -47,6 +47,17 @@
   color: #f44336;
 }
 
+.ail {
+  color: #a1f8b7 !important;
+  padding: .5rem;
+}
+
+.ail:hover {
+  border: 4px solid #ffc65bdc;
+  border-radius: 4px;
+  background-color: black;
+}
+
 @media (max-width: 768px) {
   .header {
     flex-direction: column;

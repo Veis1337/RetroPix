@@ -11,6 +11,7 @@ const PixelArtModal = ({ closeModal }) => {
   const [title, setTitle] = useState("");
   const [caption, setCaption] = useState("");
   const [error, setError] = useState(null); // Error state
+  const [eraserMode, setEraserMode] = useState(false);
 
   const mouseDownRef = useRef(false); // Track mouse down state
   const prevPixelIndexRef = useRef(null); // Track the previously colored pixel index
@@ -29,7 +30,7 @@ const PixelArtModal = ({ closeModal }) => {
 
   const handlePixelClick = (index, isRightClick) => {
     const newPixels = [...pixels];
-    const color = isRightClick ? rightClickColor : leftClickColor;
+    const color = eraserMode ? "#ffffff" : isRightClick ? rightClickColor : leftClickColor;
     newPixels[index] = color;
     setPixels(newPixels);
   };
@@ -99,22 +100,22 @@ const PixelArtModal = ({ closeModal }) => {
 
   const handlePost = () => {
     setError(null); // Reset the error state
-  
+
     if (!validateTitle(title) || !validateCaption(caption)) {
       return; // Validation failed, exit the function
     }
-  
+
     const pictureData = {
       title: title,
       caption: caption,
       drawingData: JSON.stringify(pixels),
     };
-  
-    const token = localStorage.getItem('token');
+
+    const token = localStorage.getItem("token");
     const headers = {
       Authorization: `Bearer ${token}`,
     };
-  
+
     // Send the pictureData to the backend API with the token included in the headers
     axios
       .post("/pix", pictureData, { headers })
@@ -127,8 +128,6 @@ const PixelArtModal = ({ closeModal }) => {
         console.error("Error saving the Picture model:", error);
       });
   };
-  
-  
 
   const renderPixels = () => {
     return pixels.map((color, index) => (
@@ -136,15 +135,33 @@ const PixelArtModal = ({ closeModal }) => {
         key={index}
         className="pixel"
         style={{ backgroundColor: color }}
-        onMouseDown={(e) =>
-          handlePixelMouseDown(index, e.button === 2) // 2 represents the right mouse button
+        onMouseDown={
+          (e) => handlePixelMouseDown(index, e.button === 2) // 2 represents the right mouse button
         }
-        onMouseEnter={(e) =>
-          handlePixelMouseEnter(index, e.buttons === 2) // Check if right mouse button is pressed during mouse enter
+        onMouseEnter={
+          (e) => handlePixelMouseEnter(index, e.buttons === 2) // Check if right mouse button is pressed during mouse enter
         }
+        onTouchStart={(e) => handlePixelTouchStart(e, index)}
+        onTouchMove={(e) => handlePixelTouchMove(e, index)}
+        onTouchEnd={handlePixelTouchEnd}
         onContextMenu={(e) => e.preventDefault()} // Prevent default right-click context menu
       />
     ));
+  };
+
+  const handlePixelTouchStart = (e, index) => {
+    e.preventDefault();
+    handlePixelMouseDown(index, false);
+  };
+
+  const handlePixelTouchMove = (e, index) => {
+    e.preventDefault();
+    handlePixelMouseEnter(index, false);
+  };
+
+  const handlePixelTouchEnd = (e) => {
+    e.preventDefault();
+    handleMouseUp();
   };
 
   return (
@@ -154,25 +171,36 @@ const PixelArtModal = ({ closeModal }) => {
           <span className="color-selector-text">Color Selector</span>
           <br />
           <br />
-          <input
-            type="color"
-            value={leftClickColor}
-            onChange={handleLeftClickColorChange}
-          />
-          <input
-            type="color"
-            value={rightClickColor}
-            onChange={handleRightClickColorChange}
-          />
+          {!eraserMode && (
+            <>
+              <input
+                type="color"
+                value={leftClickColor}
+                onChange={handleLeftClickColorChange}
+              />
+              <input
+                type="color"
+                value={rightClickColor}
+                onChange={handleRightClickColorChange}
+              />
+            </>
+          )}
+          <br></br>
+          <button
+            className={`eraser-button ${eraserMode ? "active" : ""}`}
+            onClick={() => setEraserMode(!eraserMode)}
+          >
+            Eraser
+          </button>
         </div>
-
         <div
-          className={`pixel-grid ${isGridTransparent ? "transparent-grid" : ""}`}
+          className={`pixel-grid ${
+            isGridTransparent ? "transparent-grid" : ""
+          }`}
           style={{ gridTemplateColumns: `repeat(${gridSize}, 1fr)` }}
         >
           {renderPixels()}
         </div>
-
         <div className="grid-toggle">
           <span className="toggle-label">Grid Toggle:</span>
           <label className="toggle-switch">
@@ -184,13 +212,12 @@ const PixelArtModal = ({ closeModal }) => {
             <span className="slider"></span>
           </label>
         </div>
-
         <div className="grid-size-toggle">
           <button
             className={`grid-size-button ${gridSize === 15 ? "active" : ""}`}
             onClick={() => handleSizeChange(15)}
           >
-            15x15
+           15x15
           </button>
           <button
             className={`grid-size-button collapse md:visible ${
@@ -209,7 +236,6 @@ const PixelArtModal = ({ closeModal }) => {
             50x50
           </button>
         </div>
-
         {/* Title form */}
         <div className="form-group">
           <label htmlFor="title">Title:</label>
@@ -221,7 +247,6 @@ const PixelArtModal = ({ closeModal }) => {
             maxLength={14}
           />
         </div>
-
         {/* Caption form */}
         <div className="form-group">
           <label htmlFor="caption">Caption:</label>
@@ -232,9 +257,8 @@ const PixelArtModal = ({ closeModal }) => {
             maxLength={100}
           />
         </div>
-
-        {error && <p className="error-message">{error}</p>} {/* Display error message if there's an error */}
-
+        {error && <p className="error-message">{error}</p>}{" "}
+        {/* Display error message if there's an error */}
         <div className="modal-toggle">
           <button className="toggle-button" onClick={handlePost}>
             Post
