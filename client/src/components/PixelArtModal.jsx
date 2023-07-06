@@ -2,7 +2,8 @@ import React, { useState, useEffect, useRef } from "react";
 import "./PixelArtModal.css";
 import axios from "axios";
 
-const PixelArtModal = ({ closeModal }) => {
+const PixelArtModal = () => {
+  const [isModalOpen, setIsModalOpen] = useState(true);
   const [gridSize, setGridSize] = useState(15);
   const [pixels, setPixels] = useState(
     Array(gridSize * gridSize).fill("#ffffff")
@@ -12,20 +13,16 @@ const PixelArtModal = ({ closeModal }) => {
   const [isGridTransparent, setIsGridTransparent] = useState(true);
   const [title, setTitle] = useState("");
   const [caption, setCaption] = useState("");
-  const [error, setError] = useState(null); // Error state
+  const [error, setError] = useState(null);
   const [eraserMode, setEraserMode] = useState(false);
-  const [isModalOpen, setIsModalOpen] = useState(true);
 
-
-  const mouseDownRef = useRef(false); // Track mouse down state
+  const mouseDownRef = useRef(false);
   const prevPixelIndexRef = useRef(null); // Track the previously colored pixel index
 
   useEffect(() => {
-    // Add event listeners for mouse move and up events
     document.addEventListener("mousemove", handleMouseMove);
     document.addEventListener("mouseup", handleMouseUp);
 
-    // Clean up the event listeners on component unmount
     return () => {
       document.removeEventListener("mousemove", handleMouseMove);
       document.removeEventListener("mouseup", handleMouseUp);
@@ -129,7 +126,7 @@ const PixelArtModal = ({ closeModal }) => {
       .post("/pix", pictureData, { headers })
       .then((response) => {
         console.log("Picture model saved successfully!", response.data);
-        closeModal(); // Close the modal after successful save
+
         window.location.reload(); // Refresh the page
       })
       .catch((error) => {
@@ -163,130 +160,137 @@ const PixelArtModal = ({ closeModal }) => {
     handlePixelClick(index, false);
     prevPixelIndexRef.current = index;
   };
-  
 
   const handlePixelTouchMove = (e, index) => {
     e.preventDefault();
     const touch = e.touches[0];
     const target = document.elementFromPoint(touch.clientX, touch.clientY);
-    if (target && target.classList.contains('pixel')) {
+    if (target && target.classList.contains("pixel")) {
       const pixelIndex = Array.from(target.parentNode.children).indexOf(target);
       handlePixelMouseEnter(pixelIndex, false);
     }
   };
-  
 
   const handlePixelTouchEnd = (e) => {
     e.preventDefault();
     handleMouseUp();
   };
-  
 
   return (
-    <div className="pixel-art-modal">
-      <div className="modal-content">
-        <div className="size-selection">
-          {!eraserMode && (
-            <>
+    <>
+      {isModalOpen && (
+        <div className="pixel-art-modal">
+          <div className="modal-content">
+            <div className="size-selection">
+              {!eraserMode && (
+                <>
+                  <input
+                    type="color"
+                    value={leftClickColor}
+                    onChange={handleLeftClickColorChange}
+                  />
+                  <input
+                    type="color"
+                    value={rightClickColor}
+                    onChange={handleRightClickColorChange}
+                    className="collapse md:visible"
+                  />
+                </>
+              )}
+              <br></br>
+              <button
+                className={`eraser-button ${eraserMode ? "active" : ""}`}
+                onClick={() => setEraserMode(!eraserMode)}
+              >
+                Eraser
+              </button>
+            </div>
+            <div
+              className={`pixel-grid ${
+                isGridTransparent ? "transparent-grid" : ""
+              }`}
+              style={{ gridTemplateColumns: `repeat(${gridSize}, 1fr)` }}
+            >
+              {renderPixels()}
+            </div>
+            <div className="grid-toggle">
+              <span className="toggle-label">Grid Toggle:</span>
+              <label className="toggle-switch">
+                <input
+                  type="checkbox"
+                  checked={!isGridTransparent}
+                  onChange={handleGridToggle}
+                />
+                <span className="slider"></span>
+              </label>
+            </div>
+            <div className="grid-size-toggle">
+              <button
+                className={`grid-size-button collapse md:visible ${
+                  gridSize === 15 ? "active" : ""
+                }`}
+                onClick={() => handleSizeChange(15)}
+              >
+                15x15
+              </button>
+              <button
+                className={`grid-size-button collapse md:visible ${
+                  gridSize === 25 ? "active" : ""
+                }`}
+                onClick={() => handleSizeChange(25)}
+              >
+                25x25
+              </button>
+              <button
+                className={`grid-size-button collapse md:visible ${
+                  gridSize === 50 ? "active" : ""
+                }`}
+                onClick={() => handleSizeChange(50)}
+              >
+                50x50
+              </button>
+            </div>
+            {/* Title form */}
+            <div className="form-group">
+              <label htmlFor="title">Title:</label>
               <input
-                type="color"
-                value={leftClickColor}
-                onChange={handleLeftClickColorChange}
+                type="text"
+                id="title"
+                value={title}
+                onChange={handleTitleChange}
+                maxLength={14}
               />
-              <input
-                type="color"
-                value={rightClickColor}
-                onChange={handleRightClickColorChange}
-                className="collapse md:visible"
+            </div>
+            {/* Caption form */}
+            <div className="form-group">
+              <label htmlFor="caption">Caption:</label>
+              <textarea
+                id="caption"
+                value={caption}
+                onChange={handleCaptionChange}
+                maxLength={100}
               />
-            </>
-          )}
-          <br></br>
-          <button
-            className={`eraser-button ${eraserMode ? "active" : ""}`}
-            onClick={() => setEraserMode(!eraserMode)}
-          >
-            Eraser
-          </button>
+            </div>
+            {error && <p className="error-message">{error}</p>}{" "}
+            {/* Display error message if there's an error */}
+            <div className="modal-toggle">
+              <button className="toggle-button" onClick={handlePost}>
+                Post
+              </button>
+              <button
+                className="toggle-button"
+                onClick={() => {
+                  setIsModalOpen(false);
+                  window.location.reload();
+                }}
+              >
+                Close
+              </button>
+            </div>
+          </div>
         </div>
-        <div
-          className={`pixel-grid ${
-            isGridTransparent ? "transparent-grid" : ""
-          }`}
-          style={{ gridTemplateColumns: `repeat(${gridSize}, 1fr)` }}
-        >
-          {renderPixels()}
-        </div>
-        <div className="grid-toggle">
-          <span className="toggle-label">Grid Toggle:</span>
-          <label className="toggle-switch">
-            <input
-              type="checkbox"
-              checked={!isGridTransparent}
-              onChange={handleGridToggle}
-            />
-            <span className="slider"></span>
-          </label>
-        </div>
-        <div className="grid-size-toggle">
-          <button
-            className={`grid-size-button collapse md:visible ${
-              gridSize === 15 ? "active" : ""
-            }`}
-            onClick={() => handleSizeChange(15)}
-          >
-            15x15
-          </button>
-          <button
-            className={`grid-size-button collapse md:visible ${
-              gridSize === 25 ? "active" : ""
-            }`}
-            onClick={() => handleSizeChange(25)}
-          >
-            25x25
-          </button>
-          <button
-            className={`grid-size-button collapse md:visible ${
-              gridSize === 50 ? "active" : ""
-            }`}
-            onClick={() => handleSizeChange(50)}
-          >
-            50x50
-          </button>
-        </div>
-        {/* Title form */}
-        <div className="form-group">
-          <label htmlFor="title">Title:</label>
-          <input
-            type="text"
-            id="title"
-            value={title}
-            onChange={handleTitleChange}
-            maxLength={14}
-          />
-        </div>
-        {/* Caption form */}
-        <div className="form-group">
-          <label htmlFor="caption">Caption:</label>
-          <textarea
-            id="caption"
-            value={caption}
-            onChange={handleCaptionChange}
-            maxLength={100}
-          />
-        </div>
-        {error && <p className="error-message">{error}</p>}{" "}
-        {/* Display error message if there's an error */}
-        <div className="modal-toggle">
-          <button className="toggle-button" onClick={handlePost}>
-            Post
-          </button>
-          <button className="toggle-button" onClick={closeModal}>
-            Close
-          </button>
-        </div>
-      </div>
-    </div>
+      )}
+    </>
   );
 };
 
