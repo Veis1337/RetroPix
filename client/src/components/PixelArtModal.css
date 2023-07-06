@@ -200,10 +200,15 @@ input:checked + .slider:before {
 }
 
 @media (max-width: 600px) {
-  .modal-content {
-    padding: 0.5rem;
+  body {
+    overflow: auto;
   }
   
+  .modal-content {
+    padding: 0.5rem;
+
+  }
+
   .modal-content .size-selection,
   .modal-content .grid-toggle,
   .modal-content .grid-size-toggle,
