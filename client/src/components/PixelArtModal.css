@@ -3,7 +3,7 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
+  position: fixed;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -15,10 +15,12 @@
   padding: 1rem;
   border-radius: 4px;
   text-align: center;
-  max-width: 500px; 
-  width: 90%;
-  margin-top: 1rem;
+  width: 100%;
+  max-width: 100%;
+  max-height: 100%;
+  overflow: auto;
 }
+
 
 .size-selection {
   background-color: #4299e1;
@@ -39,8 +41,8 @@
   border: 1px solid #e68be9;
   border-radius: 10px;
   font-size: 0.8rem;
-  background-color: #ffffff;
-  color: #e68be9;
+  background-color: #e68be9;
+  color: #ffffff;
   transition: background-color 0.3s ease;
 }
 
@@ -192,4 +194,43 @@ input:checked + .slider:before {
 .form-group {
   margin: 4px;
   color: #4299e1;
+}
+
+@media (max-width: 600px) {
+  .modal-content {
+    padding: 0.5rem;
+  }
+  
+  .modal-content .size-selection,
+  .modal-content .grid-toggle,
+  .modal-content .grid-size-toggle,
+  .modal-content .form-group {
+    margin-bottom: 0.5rem;
+  }
+  
+  .modal-content .color-selector-text,
+  .modal-content .toggle-label {
+    font-size: 10px;
+  }
+  
+  .modal-content .eraser-button,
+  .modal-content .grid-size-button,
+  .modal-content .toggle-button {
+    font-size: 10px;
+    padding: 0.25rem 0.5rem;
+  }
+  
+  .modal-content .form-group label {
+    font-size: 10px;
+  }
+  
+  .modal-content .form-group input,
+  .modal-content .form-group textarea {
+    font-size: 10px;
+    padding: 0.25rem;
+  }
+  
+  .modal-content .error-message {
+    font-size: 10px;
+  }
 }

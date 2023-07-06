@@ -171,12 +171,9 @@ const PixelArtModal = ({ closeModal }) => {
   };
 
   return (
-    <div className="pixel-art-modal sm:fixed">
+    <div className="pixel-art-modal fixed">
       <div className="modal-content">
         <div className="size-selection">
-          <span className="color-selector-text">Color Selector</span>
-          <br />
-          <br />
           {!eraserMode && (
             <>
               <input
