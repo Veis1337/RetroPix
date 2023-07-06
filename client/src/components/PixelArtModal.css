@@ -2,7 +2,7 @@
   top: 0;
   left: 0;
   width: 100%;
-  height: 100vh;
+  height: 100%;
   position: fixed;
   display: flex;
   align-items: center;
@@ -199,11 +199,7 @@ input:checked + .slider:before {
   color: #4299e1;
 }
 
-/* @media (max-width: 600px) {
-  body {
-    overflow: hidden;
-  } */
-  
+@media (max-width: 600px) {
   .modal-content {
     padding: 0.5rem;
   }

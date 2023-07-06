@@ -155,14 +155,14 @@ const PixelArtModal = () => {
   };
 
   const handlePixelTouchStart = (e, index) => {
-    e.preventDefault();
+
     mouseDownRef.current = true;
     handlePixelClick(index, false);
     prevPixelIndexRef.current = index;
   };
 
   const handlePixelTouchMove = (e, index) => {
-    e.preventDefault();
+
     const touch = e.touches[0];
     const target = document.elementFromPoint(touch.clientX, touch.clientY);
     if (target && target.classList.contains("pixel")) {
@@ -172,7 +172,7 @@ const PixelArtModal = () => {
   };
 
   const handlePixelTouchEnd = (e) => {
-    e.preventDefault();
+
     handleMouseUp();
   };
 
