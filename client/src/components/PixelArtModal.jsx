@@ -15,6 +15,7 @@ const PixelArtModal = ({ closeModal }) => {
   const [error, setError] = useState(null); // Error state
   const [eraserMode, setEraserMode] = useState(false);
 
+
   const mouseDownRef = useRef(false); // Track mouse down state
   const prevPixelIndexRef = useRef(null); // Track the previously colored pixel index
 
