@@ -200,8 +200,13 @@ input:checked + .slider:before {
 }
 
 @media (max-width: 600px) {
-  body {
+  .pixel-art-modal {
     overflow: hidden;
+  }
+
+  .pixel-art-modal .modal-content {
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch; /* Enable smooth scrolling on iOS devices */
   }
   
   .modal-content {

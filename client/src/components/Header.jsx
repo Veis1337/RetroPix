@@ -17,6 +17,7 @@ const Header = () => {
       setIsLoggedIn(true);
     }
   }, []);
+  
 
   const openModal = (size) => {
     setModalSize(size);
@@ -40,6 +41,7 @@ const Header = () => {
         console.error('Error logging out:', error);
       });
   };
+  
 
   return (
     <header className="header">
@@ -65,8 +67,8 @@ const Header = () => {
                 </button>
               </li>
               <li className="nav-item">
-                <Link to="/ail" className='ail'>A.I.L</Link>
-              </li>
+            <Link to="/ail" className='ail'>A.I.L</Link>
+          </li>
             </>
           )}
         </ul>
@@ -74,9 +76,7 @@ const Header = () => {
       <button className="draw-button" onClick={() => openModal(15)}>
         Draw Something!
       </button>
-      {isModalOpen && (
-        <PixelArtModal closeModal={closeModal} gridSize={modalSize} />
-      )}
+      {isModalOpen && <PixelArtModal closeModal={closeModal} gridSize={modalSize} />}
     </header>
   );
 };
