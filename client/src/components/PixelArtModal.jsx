@@ -171,7 +171,7 @@ const PixelArtModal = ({ closeModal }) => {
   };
 
   return (
-    <div className="pixel-art-modal fixed">
+    <div className="pixel-art-modal">
       <div className="modal-content">
         <div className="size-selection">
           {!eraserMode && (
@@ -185,6 +185,7 @@ const PixelArtModal = ({ closeModal }) => {
                 type="color"
                 value={rightClickColor}
                 onChange={handleRightClickColorChange}
+                className="collapse md:visible"
               />
             </>
           )}
