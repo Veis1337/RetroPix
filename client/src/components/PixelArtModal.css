@@ -200,9 +200,7 @@ input:checked + .slider:before {
 }
 
 @media (max-width: 600px) {
-  body {
-    overflow: auto;
-  }
+
   
   .modal-content {
     padding: 0.5rem;

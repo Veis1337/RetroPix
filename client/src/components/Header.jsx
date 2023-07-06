@@ -67,8 +67,8 @@ const Header = () => {
                 </button>
               </li>
               <li className="nav-item">
-            <Link to="/ail" className='ail'>A.I.L</Link>
-          </li>
+                <Link to="/ail" className='ail'>A.I.L</Link>
+              </li>
             </>
           )}
         </ul>
@@ -77,6 +77,7 @@ const Header = () => {
         Draw Something!
       </button>
       {isModalOpen && <PixelArtModal closeModal={closeModal} gridSize={modalSize} />}
+      {isModalOpen && <style>{`body { overflow: hidden; }`}</style>}
     </header>
   );
 };
