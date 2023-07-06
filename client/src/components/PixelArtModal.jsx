@@ -142,43 +142,35 @@ const PixelArtModal = ({ closeModal }) => {
         key={index}
         className="pixel"
         style={{ backgroundColor: color }}
-        onMouseDown={
-          (e) => handlePixelMouseDown(index, e.button === 2) // 2 represents the right mouse button
-        }
-        onMouseEnter={
-          (e) => handlePixelMouseEnter(index, e.buttons === 2) // Check if right mouse button is pressed during mouse enter
-        }
+        onMouseDown={(e) => handlePixelMouseDown(index, e.button === 2)}
+        onMouseEnter={(e) => handlePixelMouseEnter(index, e.buttons === 2)}
         onTouchStart={(e) => handlePixelTouchStart(e, index)}
         onTouchMove={(e) => handlePixelTouchMove(e, index)}
         onTouchEnd={handlePixelTouchEnd}
-        onContextMenu={(e) => e.preventDefault()} // Prevent default right-click context menu
+        onContextMenu={(e) => e.preventDefault()}
       />
     ));
   };
-
+  
   const handlePixelTouchStart = (e, index) => {
-    e.preventDefault();
     mouseDownRef.current = true;
     handlePixelClick(index, false);
     prevPixelIndexRef.current = index;
   };
   
-
   const handlePixelTouchMove = (e, index) => {
-    e.preventDefault();
     const touch = e.touches[0];
     const target = document.elementFromPoint(touch.clientX, touch.clientY);
-    if (target && target.classList.contains('pixel')) {
+    if (target && target.classList.contains("pixel")) {
       const pixelIndex = Array.from(target.parentNode.children).indexOf(target);
       handlePixelMouseEnter(pixelIndex, false);
     }
   };
   
-
   const handlePixelTouchEnd = (e) => {
-    e.preventDefault();
     handleMouseUp();
   };
+  
   
 
   return (
