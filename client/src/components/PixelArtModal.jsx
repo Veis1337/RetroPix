@@ -14,6 +14,7 @@ const PixelArtModal = ({ closeModal }) => {
   const [caption, setCaption] = useState("");
   const [error, setError] = useState(null); // Error state
   const [eraserMode, setEraserMode] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(true);
 
 
   const mouseDownRef = useRef(false); // Track mouse down state
