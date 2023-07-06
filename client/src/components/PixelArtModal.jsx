@@ -157,18 +157,28 @@ const PixelArtModal = ({ closeModal }) => {
 
   const handlePixelTouchStart = (e, index) => {
     e.preventDefault();
-    handlePixelMouseDown(index, false);
+    mouseDownRef.current = true;
+    handlePixelClick(index, false);
+    prevPixelIndexRef.current = index;
   };
+  
 
   const handlePixelTouchMove = (e, index) => {
     e.preventDefault();
-    handlePixelMouseEnter(index, false);
+    const touch = e.touches[0];
+    const target = document.elementFromPoint(touch.clientX, touch.clientY);
+    if (target && target.classList.contains('pixel')) {
+      const pixelIndex = Array.from(target.parentNode.children).indexOf(target);
+      handlePixelMouseEnter(pixelIndex, false);
+    }
   };
+  
 
   const handlePixelTouchEnd = (e) => {
     e.preventDefault();
     handleMouseUp();
   };
+  
 
   return (
     <div className="pixel-art-modal">
