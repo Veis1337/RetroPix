@@ -31,6 +31,8 @@ const PixGallery = () => {
       if (response.status === 200) {
         setPictures(response.data);
         setTotalPages(response.headers['x-total-pages']);
+        console.log(totalPages);
+        console.log(currentPage);
         await fetchUsernames(response.data);
       } else {
         throw new Error('Failed to fetch pictures');
@@ -101,20 +103,20 @@ const PixGallery = () => {
       <p className="pix-gallery-subheading">Here's a gallery of random pictures created by users:</p>
       <div className="pagination">
         <button
-          className="pagination-button mr-4 mt-4"
+          className={`pagination-button mr-4 mt-4 ${currentPage === 1 ? 'disabled' : 'hover:scale-110'}`}
           onClick={handlePreviousPage}
           disabled={currentPage === 1}
         >
           Previous
         </button>
         <button
-          className="pagination-button"
+          className={`pagination-button ${currentPage == totalPages ? 'disabled' : 'hover:scale-110'}`}
           onClick={handleNextPage}
-          disabled={currentPage === totalPages}
+          disabled={currentPage == totalPages}
         >
           Next
         </button>
-      </div>
+      </div>  
       {loading ? (
         <p className="loading-message">Loading...</p>
       ) : (
@@ -164,23 +166,23 @@ const PixGallery = () => {
         <CommentModal picture={selectedPicture} closeModal={() => setShowCommentModal(false)} />
       )}
       <div className="pagination">
-        <button
-          className="pagination-button mr-4 mt-4"
-          onClick={handlePreviousPage}
-          disabled={currentPage === 1}
-        >
-          Previous
-        </button>
-        <button
-          className="pagination-button"
-          onClick={handleNextPage}
-          disabled={currentPage === totalPages}
-        >
-          Next
-        </button>
-      </div>
+      <button
+        className={`pagination-button mr-4 mt-4 ${currentPage === 1 ? 'disabled' : 'hover:scale-110'}`}
+        onClick={handlePreviousPage}
+        disabled={currentPage === 1}
+      >
+        Previous
+      </button>
+      <button
+        className={`pagination-button ${currentPage == totalPages ? 'disabled' : 'hover:scale-110'}`}
+        onClick={handleNextPage}
+        disabled={currentPage == totalPages}
+      >
+        Next
+      </button>
     </div>
-  );
+  </div>
+);
 };
 
 export default PixGallery;

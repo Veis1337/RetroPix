@@ -3,16 +3,26 @@ const router = express.Router();
 const Picture = require('../models/Picture');
 const { authenticateToken } = require('../middleware/auth');
 
-// Get all pictures
+// Get all pictures with pagination
 router.get('/', async (req, res) => {
-    try {
-      const pictures = await Picture.findAll();
-      res.json(pictures);
-    } catch (error) {
-      console.error('Error retrieving pictures:', error);
-      res.status(500).json({ error: 'Internal server error' });
-    }
-  });
+  const { page, limit } = req.query; // Extract page and limit from query parameters
+  const offset = (page - 1) * limit; // Calculate the offset based on the page and limit
+
+  try {
+    const { count, rows } = await Picture.findAndCountAll({
+      offset,
+      limit,
+    });
+    const totalPages = Math.ceil(count / limit); // Calculate the total number of pages
+    res.set('X-Total-Pages', String(totalPages)); // Convert totalPages to a string and set the total pages header
+    res.json(rows); // Send the pictures for the current page
+  } catch (error) {
+    console.error('Error retrieving pictures:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
+
   
   // Get a specific picture by ID
   router.get('/:id', async (req, res) => {
