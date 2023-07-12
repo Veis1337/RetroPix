@@ -117,16 +117,14 @@
   
   .card-size-50 {
     border: 2px solid #FF00FF;
-    grid-column-end: span 2;
+
   }
 
     .card-size-50 .card-title {
     color: #FF00FF;
   }
   
-  .card-size-50 .card-image canvas {
-    width: 100%;
-  }
+
 
   @media (max-width: 768px) {
     .username {
@@ -152,10 +150,6 @@
     }
   }
 
-  @media (max-width: 768px) {
-    .card-size-50 {
-      display: none !important;
-    }
-  }
+
   
   

@@ -31,15 +31,13 @@ const PixGallery = () => {
       if (response.status === 200) {
         setPictures(response.data);
         setTotalPages(response.headers['x-total-pages']);
-        console.log(totalPages);
-        console.log(currentPage);
         await fetchUsernames(response.data);
       } else {
         throw new Error('Failed to fetch pictures');
       }
     } catch (error) {
       console.error(error);
-      setError('Failed to fetch pictures'); // Set error state
+      setError('Failed to fetch pictures'); 
     }
   };
 
@@ -54,7 +52,7 @@ const PixGallery = () => {
       }
     } catch (error) {
       console.error(error);
-      setError('Failed to fetch usernames'); // Set error state
+      setError('Failed to fetch usernames'); 
     }
   };
 
@@ -100,7 +98,7 @@ const PixGallery = () => {
   return (
     <div className="pix-gallery">
       <h2 className="pix-gallery-heading">Welcome to RetroPix Pix Gallery!</h2>
-      <p className="pix-gallery-subheading">Here's a gallery of random pictures created by users:</p>
+      <p className="pix-gallery-subheading">Here's a gallery of all pictures created by users:</p>
       <div className="pagination">
         <button
           className={`pagination-button mr-4 mt-4 ${currentPage === 1 ? 'disabled' : 'hover:scale-110'}`}
