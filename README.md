@@ -31,6 +31,10 @@ To install this project - Navigate to [https://retro-pix.herokuapp.com/gallery] 
 
 To use this project - The drawing Modal will pop up with options on whether to create a 15px, 25px, or 50px size drawing board. The color selector has options for both left and right click on PC, and an eraser option that makes the left click white while toggled.
 
+![screenshot1](/client/src/assets/Pix/Readme1.png)
+![screenshot2](/client/src/assets/Pix/Readme2.png)
+![screenshot3](/client/src/assets/Pix/Readme3.png)
+
 ## Contributing
 
 Solo Developer - Veis1337 @ GitHub
