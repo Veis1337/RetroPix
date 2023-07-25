@@ -274,7 +274,7 @@ const PixelArtModal = () => {
             {error && <p className="error-message">{error}</p>}{" "}
             {/* Display error message if there's an error */}
             <div className="modal-toggle">
-              <button className="toggle-button" onClick={handlePost}>
+              <button className="toggle-button bg-[#f44336]" onClick={handlePost}>
                 Post
               </button>
               <button
